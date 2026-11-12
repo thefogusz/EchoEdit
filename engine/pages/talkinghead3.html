@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="th"><head><meta charset="utf-8">
+<style>
+  html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#F3F7FF}
+  #spk{position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden;z-index:2}
+  #spk video{position:absolute;left:0;top:0;width:1080px;height:1920px;object-fit:cover;transform-origin:0 0}
+  #ins{position:absolute;left:0;top:0;z-index:3}
+</style></head>
+<body>
+<div id="spk"><video muted preload="auto"></video></div>
+<canvas id="ins" width="1080" height="1920"></canvas>
+<script src="../web/de.js"></script>
+<script>
+// TYPE 1 v3 (talking head). Built from the type 1 refs (refs/type1, คนพูด01/02):
+//  - split: the insert fills the top half, the speaker is reframed into the bottom half (face never covered)
+//  - cut:   the insert fills the frame for 1-3 s
+//  - full:  speaker only, slow punch-in on strong statements
+//  - every insert is REAL content that moves ON the spoken word (logos one by one, a counter on the number,
+//    a meter that drops on "not enough", posts that multiply on "quantity"), never a text card repeating the caption.
+// Our CI: ice background, hairline grid, cobalt/teal/orange, Kanit / IBM Plex Sans Thai / Red Hat Display.
+let D, cap, V, g, imgs = {};
+const W = 1080, H = 1920, BLUE = '#214AFF', TEAL = '#00C2BB', ORANGE = '#FE4C1C', INK = '#1A1B1E', SKY = '#9EE8FF';
+const J = (p) => D.jobBase + '/' + p;
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x)), lerp = (a, b, k) => a + (b - a) * k;
+const E = (k) => 1 - Math.pow(1 - clamp(k), 3), POP = (d) => (d <= 0 ? 0 : DE.spring(d, 12, 0.5));
+
+window.setup = async (data) => {
+  D = data; await DE.injectFonts(D.brandBase);
+  g = document.getElementById('ins').getContext('2d');
+  for (const n of D.logos || []) imgs[n] = await DE.loadImage(J('assets/logos_official/' + n + '.svg'));
+  V = document.querySelector('#spk video'); V.src = J(D.footage);
+  await new Promise((ok) => { if (V.readyState >= 2) ok(); V.addEventListener('loadeddata', ok, { once: true }); setTimeout(ok, 8000); });
+  cap = new DE.Captions(document.body, D.captions, Object.assign({ y: 880, size: 62, maxWidth: 960 }, D.captionStyle));
+  cap.el.style.zIndex = 60;
+};
+const seek = (t) => new Promise((ok) => { const tt = Math.min(t, (V.duration || 99) - 0.04); if (Math.abs(V.currentTime - tt) < 0.001) return ok(); V.addEventListener('seeked', ok, { once: true }); V.currentTime = tt; setTimeout(ok, 1500); });
+function faceAt(t) { const F = D.face; let i = F.findIndex((f) => f.t > t); if (i <= 0) i = i === 0 ? 1 : F.length - 1;
+  const a = F[i - 1], b = F[i], k = clamp((t - a.t) / ((b.t - a.t) || 1)); return { x: lerp(a.cx, b.cx, k) * W, y: lerp(a.cy, b.cy, k) * H, h: lerp(a.h, b.h, k) * H }; }
+function frame(layout, f, z) {
+  if (layout === 'split') {  // speaker in the bottom half; scale so the burned-in captions of the source fall outside the box
+    const BW = W, BH = 960, sc = (D.splitScale || 1.4) * z;
+    const tx = clamp(BW / 2 - f.x * sc, BW - W * sc, 0), ty = clamp(BH * 0.36 - f.y * sc, BH - H * sc, 0);
+    return { top: 960, h: 960, tx, ty, sc };
+  }
+  return { top: 0, h: H, tx: f.x * (1 - z), ty: f.y * (1 - z), sc: z };
+}
+
+// ---------- insert painters: (o = insert spec, t = absolute time, R = {x,y,w,h} panel rect) ----------
+function panel(R) {  // brand panel: ice + hairline grid
+  g.fillStyle = '#F3F7FF'; g.fillRect(R.x, R.y, R.w, R.h);
+  g.strokeStyle = 'rgba(33,74,255,.07)'; g.lineWidth = 1;
+  for (let x = R.x; x <= R.x + R.w; x += 60) { g.beginPath(); g.moveTo(x + 0.5, R.y); g.lineTo(x + 0.5, R.y + R.h); g.stroke(); }
+  for (let y = R.y; y <= R.y + R.h; y += 60) { g.beginPath(); g.moveTo(R.x, y + 0.5); g.lineTo(R.x + R.w, y + 0.5); g.stroke(); }
+}
+function txt(s, x, y, font, color, align = 'center') { g.font = font; g.fillStyle = color; g.textAlign = align; g.textBaseline = 'middle'; g.fillText(s, x, y); }
+function card(x, y, w, h, r = 28, fill = '#fff') { g.save(); g.shadowColor = 'rgba(33,74,255,.16)'; g.shadowBlur = 30; g.shadowOffsetY = 10; g.fillStyle = fill; g.beginPath(); g.roundRect(x, y, w, h, r); g.fill(); g.restore(); }
+function source(s, R) { txt(s, R.x + R.w - 40, R.y + R.h - 36, "600 26px 'IBM Plex Sans Thai'", '#5B6B8C', 'right'); }
+
+const INS = {
+  logos(o, t, R) {  // AI tools appear one by one on the word; a small row of all of them collects underneath (ref01)
+    const cx = R.x + R.w / 2, cy = R.y + R.h * 0.42;
+    o.items.forEach((it, i) => {
+      const d = t - it.at, k = POP(d), nxt = o.items[i + 1], out = nxt ? E((t - nxt.at) / 0.25) : 0;
+      if (d < 0 || out >= 1) return;
+      const im = imgs[it.logo], h = it.h || 230, w = h * im.width / im.height;
+      g.save(); g.globalAlpha = 1 - out; g.translate(cx, cy - 40 * out); g.scale(0.7 + 0.3 * k, 0.7 + 0.3 * k); g.drawImage(im, -w / 2, -h / 2, w, h); g.restore();
+    });
+    const shown = o.items.filter((it) => t >= it.at); let x = cx - (shown.length - 1) * 50;
+    for (const it of shown) { const im = imgs[it.logo], h = 54, w = h * im.width / im.height; g.globalAlpha = E((t - it.at) / 0.3); g.drawImage(im, x - w / 2, R.y + R.h * 0.78 - h / 2, w, h); g.globalAlpha = 1; x += 100; }
+    if (o.drain !== undefined && t >= o.drain) {  // battery drains on "เหนื่อย"
+      const k = E((t - o.drain) / 0.6), bx = R.x + R.w - 210, by = R.y + 90;
+      g.strokeStyle = INK; g.lineWidth = 6; g.beginPath(); g.roundRect(bx, by, 140, 66, 12); g.stroke(); g.fillStyle = INK; g.fillRect(bx + 140, by + 20, 12, 26);
+      const lvl = lerp(0.9, 0.12, k); g.fillStyle = lvl < 0.3 ? ORANGE : TEAL; g.fillRect(bx + 8, by + 8, 124 * lvl, 50);
+    }
+  },
+  job(o, t, R) {  // a profile/job card pops on the word
+    const k = POP(t - o.at); if (t < o.at) return;
+    const w = 760, h = 420, x = R.x + (R.w - w) / 2, y = R.y + R.h * 0.5 - h / 2 + 60 * (1 - k);
+    g.globalAlpha = clamp((t - o.at) / 0.15); card(x, y, w, h, 36);
+    g.fillStyle = SKY; g.beginPath(); g.arc(x + 150, y + 150, 86, 0, 7); g.fill();
+    g.fillStyle = BLUE; g.beginPath(); g.arc(x + 150, y + 130, 34, 0, 7); g.fill(); g.beginPath(); g.ellipse(x + 150, y + 215, 60, 40, 0, Math.PI, 0); g.fill();
+    txt(o.title, x + 280, y + 120, "900 76px Kanit", INK, 'left'); txt(o.sub, x + 282, y + 196, "600 38px 'IBM Plex Sans Thai'", '#5B6B8C', 'left');
+    o.tags.forEach((s, i) => { const kk = E((t - o.at - 0.3 - i * 0.15) / 0.3); if (kk <= 0) return; g.globalAlpha = kk;
+      g.font = "700 34px 'IBM Plex Sans Thai'"; const tw = g.measureText(s).width + 50; const tx = x + 60 + o.tags.slice(0, i).reduce((a, q) => a + g.measureText(q).width + 70, 0);
+      g.fillStyle = i === o.tags.length - 1 ? ORANGE : '#E7EEFF'; g.beginPath(); g.roundRect(tx, y + 290, tw, 70, 35); g.fill();
+      txt(s, tx + tw / 2, y + 326, "700 34px 'IBM Plex Sans Thai'", i === o.tags.length - 1 ? '#fff' : BLUE); });
+    g.globalAlpha = 1;
+  },
+  stat(o, t, R) {  // counter on the number + people icons that light up (2 of 3) + source
+    const cx = R.x + R.w / 2, k = clamp((t - o.at) / 0.9), v = Math.round(o.to * (1 - Math.pow(1 - k, 4)));
+    if (t >= o.at) { txt(v + '%', cx, R.y + R.h * 0.3, "900 220px 'Red Hat Display'", BLUE); txt(o.label, cx, R.y + R.h * 0.3 + 150, "700 48px 'IBM Plex Sans Thai'", INK); }
+    for (let i = 0; i < 3; i++) { const on = i < o.lit && t >= o.at + 0.5 + i * 0.2, px = cx + (i - 1) * 170, py = R.y + R.h * 0.72;
+      g.fillStyle = on ? BLUE : '#C9D6F5'; g.beginPath(); g.arc(px, py - 60, 42, 0, 7); g.fill(); g.beginPath(); g.ellipse(px, py + 40, 70, 60, 0, Math.PI, 0); g.fill();
+      if (on) { g.fillStyle = TEAL; g.beginPath(); g.roundRect(px + 26, py - 120, 64, 40, 20); g.fill(); txt('AI', px + 58, py - 99, "800 26px 'Red Hat Display'", '#fff'); } }
+    source(o.source, R);
+  },
+  post(o, t, R) {  // one content post being made (the old way: one post at a time)
+    const k = POP(t - o.at); if (t < o.at) return;
+    const w = 520, h = 620, x = R.x + (R.w - w) / 2, y = R.y + (R.h - h) / 2 + 40 * (1 - k);
+    card(x, y, w, h, 30); g.fillStyle = '#E7EEFF'; g.fillRect(x + 30, y + 90, w - 60, 330);
+    g.fillStyle = SKY; g.beginPath(); g.arc(x + 60, y + 50, 22, 0, 7); g.fill(); g.fillStyle = '#C9D6F5'; g.fillRect(x + 95, y + 40, 170, 20);
+    g.fillStyle = BLUE; g.beginPath(); g.moveTo(x + w / 2 - 40, y + 210); g.lineTo(x + w / 2 + 50, y + 255); g.lineTo(x + w / 2 - 40, y + 300); g.closePath(); g.fill();
+    for (let i = 0; i < 3; i++) { g.fillStyle = '#DCE4F7'; g.fillRect(x + 30, y + 450 + i * 40, (w - 60) * (i === 2 ? 0.6 : 1), 18); }
+  },
+  versus(o, t, R) {  // Quality vs Quantity: two meters whose levels follow keyed states on the words
+    const st = o.keys.filter((q) => t >= q.t).pop() || o.keys[0], prv = o.keys[Math.max(0, o.keys.indexOf(st) - 1)];
+    const kk = E((t - st.t) / 0.5), lv = (n) => lerp(prv[n], st[n], kk);
+    [['q', 'Quality', 'คุณภาพ', BLUE], ['n', 'Quantity', 'ปริมาณ', ORANGE]].forEach(([key, en, th, col], i) => {
+      const appear = o.at[i]; if (t < appear) return; const a = POP(t - appear);
+      const x = R.x + R.w * (i ? 0.66 : 0.34), top = R.y + 170, hgt = R.h - 360;
+      g.globalAlpha = clamp((t - appear) / 0.15);
+      txt(en, x, top - 80 + 30 * (1 - a), "800 64px 'Red Hat Display'", col); txt(th, x, top - 20, "700 40px 'IBM Plex Sans Thai'", INK);
+      g.fillStyle = '#DCE4F7'; g.beginPath(); g.roundRect(x - 90, top + 30, 180, hgt, 30); g.fill();
+      const fh = hgt * clamp(lv(key)); g.fillStyle = col; g.beginPath(); g.roundRect(x - 90, top + 30 + hgt - fh, 180, fh, 30); g.fill();
+      g.globalAlpha = 1;
+    });
+    if (st.check !== undefined) { const c = E((t - st.t - 0.2) / 0.3), x = R.x + R.w * 0.34 + 120, y = R.y + 230;
+      g.strokeStyle = TEAL; g.lineWidth = 16; g.lineCap = 'round'; g.beginPath(); g.moveTo(x, y); g.lineTo(x + 30 * c, y + 30 * c); if (c > 0.5) g.lineTo(x + 30 + 50 * (c - 0.5) * 2, y + 30 - 60 * (c - 0.5) * 2); g.stroke(); }
+  },
+  race(o, t, R) {  // many brands' quality bars converge ("สูสี") once AI helps
+    const n = 5, k = E((t - o.even) / 0.8), sp = (t >= o.ai) ? E((t - o.ai) / 0.4) : 0;
+    for (let i = 0; i < n; i++) {
+      const x = R.x + 140 + i * 200, base = [0.35, 0.8, 0.5, 0.25, 0.6][i], h = (R.h - 300) * lerp(base, 0.86, k), y = R.y + R.h - 120;
+      g.fillStyle = i === 1 ? BLUE : '#9FB2E0'; g.beginPath(); g.roundRect(x - 60, y - h, 120, h, 20); g.fill();
+      g.fillStyle = '#fff'; g.beginPath(); g.arc(x, y - h - 50, 36, 0, 7); g.fill(); g.strokeStyle = '#C9D6F5'; g.lineWidth = 4; g.stroke();
+      if (sp > 0) { g.globalAlpha = sp; g.fillStyle = TEAL; g.beginPath(); g.roundRect(x - 34, y - h - 70, 68, 40, 20); g.fill(); txt('AI', x, y - h - 50, "800 26px 'Red Hat Display'", '#fff'); g.globalAlpha = 1; }
+    }
+    if (t >= o.even) txt(o.label, R.x + R.w / 2, R.y + 110, "800 60px Kanit", INK);
+  },
+  grid(o, t, R) {  // posts multiply on "จำนวน": 1 -> 4 -> 16 -> 64
+    const steps = o.steps, st = steps.filter((q) => t >= q.t).pop(); if (!st) return;
+    const n = st.n, cols = Math.sqrt(n), cell = Math.min(R.w - 120, R.h - 160) / cols, x0 = R.x + (R.w - cell * cols) / 2, y0 = R.y + (R.h - cell * cols) / 2;
+    for (let i = 0; i < n; i++) { const d = t - st.t - (i / n) * 0.35, k = POP(d); if (d < 0 && n > 1) continue;
+      const cx = x0 + (i % cols) * cell + cell / 2, cy = y0 + Math.floor(i / cols) * cell + cell / 2, s = cell * 0.84 * (0.6 + 0.4 * k);
+      g.fillStyle = '#fff'; g.beginPath(); g.roundRect(cx - s / 2, cy - s / 2, s, s, s * 0.08); g.fill(); g.strokeStyle = '#C9D6F5'; g.lineWidth = 2; g.stroke();
+      g.fillStyle = [BLUE, SKY, TEAL, '#E7EEFF'][i % 4]; g.fillRect(cx - s * 0.4, cy - s * 0.4, s * 0.8, s * 0.5); }
+    txt('× ' + n, R.x + R.w - 120, R.y + 90, "900 72px 'Red Hat Display'", ORANGE);
+  },
+  crowd(o, t, R) {  // everyone already uses it: avatars light up with an AI badge, wave from left to right
+    const cols = 8, rows = 4, cw = (R.w - 160) / cols, rh = (R.h - 260) / rows;
+    for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+      const x = R.x + 80 + cw * (c + 0.5), y = R.y + 160 + rh * (r + 0.5), on = t >= o.at + c * 0.06 + r * 0.03;
+      g.fillStyle = on ? BLUE : '#C9D6F5'; g.beginPath(); g.arc(x, y - 22, 24, 0, 7); g.fill(); g.beginPath(); g.ellipse(x, y + 34, 40, 34, 0, Math.PI, 0); g.fill();
+      if (on) { g.fillStyle = TEAL; g.beginPath(); g.arc(x + 26, y - 42, 14, 0, 7); g.fill(); }
+    }
+    if (t >= o.at) txt(o.label, R.x + R.w / 2, R.y + 90, "800 60px Kanit", INK);
+  },
+};
+
+window.renderAt = async (t) => {
+  await seek(t);
+  const i = D.segments.findIndex((s) => t >= s.t0 && t < s.t1), s = D.segments[i] || D.segments[D.segments.length - 1];
+  const prev = D.segments[i - 1], dt = t - s.t0, f = faceAt(t);
+  // speaker: slow punch-in on every full shot (nothing static), quick 0.2 s reframe when the layout changes
+  const zf = (seg) => (seg.zoom || 1) * (seg.layout === 'full' ? 1 + 0.05 * clamp((t - seg.t0) / (seg.t1 - seg.t0)) : 1);
+  const b = frame(s.layout, f, zf(s)), a = prev ? frame(prev.layout, f, zf(prev)) : b;
+  const blend = prev && prev.layout !== s.layout ? E(dt / 0.2) : 1, mix = (p) => lerp(a[p], b[p], blend);
+  const spk = document.getElementById('spk');
+  spk.style.display = s.layout === 'cut' ? 'none' : 'block';
+  spk.style.top = mix('top') + 'px'; spk.style.height = mix('h') + 'px';
+  V.style.transform = `translate(${mix('tx')}px, ${mix('ty')}px) scale(${mix('sc')})`;
+  g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, W, H); g.globalAlpha = 1;
+  if (s.insert) {
+    const R = s.layout === 'cut' ? { x: 0, y: 0, w: W, h: H } : { x: 0, y: 0, w: W, h: 960 };
+    const zin = s.layout === 'cut' ? 1 + 0.04 * clamp(dt / (s.t1 - s.t0)) : 1;   // slow push on cutaways too
+    g.save(); g.translate(R.w / 2, R.h / 2); g.scale(zin, zin); g.translate(-R.w / 2, -R.h / 2);
+    panel(R); INS[s.insert.kind](s.insert, t, R); g.restore();
+    if (s.layout === 'split') { g.fillStyle = BLUE; g.fillRect(0, 956, W, 8); }   // seam line in brand blue
+  }
+  // captions: on the seam in split, low in cut; off in full when the footage already has burned-in captions
+  cap.el.style.top = (s.layout === 'split' ? 880 : 1660) + 'px';
+  cap.el.style.display = (s.layout === 'full' && D.captionsInFull === false) ? 'none' : 'flex';
+  cap.renderAt(t);
+};
+</script></body></html>

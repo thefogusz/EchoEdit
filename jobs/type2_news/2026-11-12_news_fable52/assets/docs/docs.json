@@ -1,0 +1,230 @@
+{
+ "p_90": {
+  "w": 1089.03125,
+  "h": 507.5,
+  "phrases": {
+   "Over 90% of the changes merged into Anthropic\u2019s core codebase": [
+    [
+     0,
+     4,
+     992.53125,
+     40
+    ]
+   ],
+   "written by Claude": [
+    [
+     73.3125,
+     54.75,
+     277.6875,
+     40
+    ]
+   ]
+  }
+ },
+ "p_intro": {
+  "w": 1089.03125,
+  "h": 406,
+  "phrases": {
+   "coding": [
+    [
+     63.6875,
+     54.75,
+     106.9375,
+     40
+    ]
+   ],
+   "reasoning": [
+    [
+     184.84375,
+     54.75,
+     155.0,
+     40
+    ]
+   ],
+   "vision": [
+    [
+     419.625,
+     54.75,
+     94.96875,
+     40
+    ]
+   ]
+  }
+ },
+ "p_faster": {
+  "w": 1089.03125,
+  "h": 253.75,
+  "phrases": {
+   "up to 30% faster": [
+    [
+     1030.5,
+     54.75,
+     41.0,
+     40
+    ],
+    [
+     0,
+     105.5,
+     203.53125,
+     40
+    ]
+   ],
+   "available at a lower price: $8 per million input tokens and $40 per million output tokens": [
+    [
+     0,
+     156.25,
+     996.96875,
+     40
+    ],
+    [
+     0,
+     207.0,
+     332.78125,
+     40
+    ]
+   ]
+  }
+ },
+ "p_same": {
+  "w": 1089.03125,
+  "h": 304.5,
+  "phrases": {
+   "Claude Fable and Claude Mythos are the same underlying model.": [
+    [
+     0,
+     4,
+     1005.9375,
+     40
+    ]
+   ],
+   "Verification Programs": [
+    [
+     673.71875,
+     257.75,
+     337.9375,
+     40
+    ]
+   ]
+  }
+ },
+ "p_os": {
+  "w": 1089.03125,
+  "h": 406,
+  "phrases": {
+   "Starting from an empty folder": [
+    [
+     627.9375,
+     54.75,
+     362.71875,
+     40
+    ],
+    [
+     0,
+     105.5,
+     90.84375,
+     40
+    ]
+   ],
+   "a working operating system that boots on a laptop": [
+    [
+     155.28125,
+     207.0,
+     767.15625,
+     40
+    ]
+   ]
+  }
+ },
+ "p_avail": {
+  "w": 1089.03125,
+  "h": 154.25,
+  "phrases": {
+   "available today on all platforms": [
+    [
+     291.625,
+     4,
+     479.09375,
+     40
+    ]
+   ]
+  }
+ },
+ "p_90b": {
+  "w": 1089.03125,
+  "h": 507.5,
+  "phrases": {
+   "Over 90% of the changes merged into Anthropic\u2019s core codebase": [
+    [
+     0,
+     4,
+     992.53125,
+     40
+    ]
+   ],
+   "written by Claude (with human guidance)": [
+    [
+     73.3125,
+     54.75,
+     649.625,
+     40
+    ]
+   ]
+  }
+ },
+ "p_rustb": {
+  "w": 1089.03125,
+  "h": 507.5,
+  "phrases": {
+   "A team of agents running an earlier version of Fable 5.2": [
+    [
+     831.25,
+     207.0,
+     149.46875,
+     40
+    ],
+    [
+     0,
+     257.75,
+     691.59375,
+     40
+    ]
+   ],
+   "migrated a critical production service from Python to Rust": [
+    [
+     698.03125,
+     257.75,
+     279.09375,
+     40
+    ],
+    [
+     0,
+     308.5,
+     607.65625,
+     40
+    ]
+   ],
+   "starts about 26 times faster": [
+    [
+     425.1875,
+     359.25,
+     414.09375,
+     40
+    ]
+   ]
+  }
+ },
+ "p_frontier": {
+  "w": 1462.65625,
+  "h": 156.75,
+  "phrases": {
+   "Fable 5.2 reaches 49.1%, the highest score of any released model we\u2019ve tested": [
+    [
+     395.125,
+     117.5625,
+     1019.03125,
+     36
+    ]
+   ]
+  }
+ }
+}

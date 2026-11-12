@@ -1,0 +1,26 @@
+# --- licensed third-party media (Artlist): see library/audio/ARTLIST_MANIFEST.md ---
+library/audio/music/*.wav
+library/audio/sfx/*.wav
+library/audio/foley/*.wav
+jobs/**/input/music_bed*.wav
+jobs/**/input/music_artlist*.wav
+# --- third-party raw media we only reference (fair use is for the finished, credited videos) ---
+refs/
+jobs/**/assets/media/*.webm
+jobs/**/assets/media/*.mp4
+# --- scratch / generated / heavy ---
+work/
+jobs/**/out/
+jobs/**/scene*.json
+jobs/**/assets/footage.webm
+library/models3d/_zips/
+__pycache__/
+*.pyc
+.venv*/
+node_modules/
+# --- secrets never live here (keys are in ~/.config/...), but just in case ---
+*.env
+.env*
+
+# drafts moved out of the repo (local only)
+_archive_local/

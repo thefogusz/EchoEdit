@@ -1,0 +1,388 @@
+{
+ "_note": "Provider routing for the Data Echooo video skill. For each capability: every way to do it (API key, CLI, MCP, local). tools/capabilities.py checks the api/cli/local ones on this machine; the agent checks the mcp ones against its own tool list. Then the agent OFFERS the available options to the user (cost first) instead of picking a paid one silently. 'paid': user pays per use; 'plan': inside a subscription the user already has; 'free': local/no cost.",
+ "capabilities": {
+  "voice_tts": {
+   "label": "เสียงพากย์ (TTS)",
+   "options": [
+    {
+     "id": "elevenlabs_api",
+     "kind": "api",
+     "cost": "paid",
+     "env": [
+      "ELEVENLABS_API_KEY"
+     ],
+     "files": [
+      "~/.config/dataechooo/elevenlabs.env"
+     ],
+     "run": "python pipelines/tts_elevenlabs.py script.txt out.mp3 --voice <id>",
+     "note": "one call for the whole script; returns char timing"
+    },
+    {
+     "id": "elevenlabs_mcp",
+     "kind": "mcp",
+     "cost": "paid",
+     "mcp_tools": [
+      "creative_generate_speech",
+      "generate_voiceover",
+      "generate_audio"
+     ],
+     "note": "ElevenLabs/other TTS connectors"
+    },
+    {
+     "id": "paxa_api",
+     "kind": "api",
+     "cost": "paid",
+     "files": [
+      "~/.config/koubo/paxa.env"
+     ],
+     "run": "python -I <koubo>/scripts/paxa_tts.py \"<text>\" out.mp3 --voice khaotom",
+     "note": "Thai voices, word timing; voice whole script in one call"
+    }
+   ]
+  },
+  "word_timing_stt": {
+   "label": "ถอดเสียง + เวลาของคำ (ซับ)",
+   "options": [
+    {
+     "id": "scribe_api",
+     "kind": "api",
+     "cost": "paid",
+     "env": [
+      "ELEVENLABS_API_KEY"
+     ],
+     "files": [
+      "~/.config/dataechooo/elevenlabs.env"
+     ],
+     "run": "python pipelines/stt_elevenlabs.py in.mp4 out.json"
+    },
+    {
+     "id": "scribe_mcp",
+     "kind": "mcp",
+     "cost": "paid",
+     "mcp_tools": [
+      "creative_transcribe_audio",
+      "transcribe_media"
+     ]
+    },
+    {
+     "id": "whisper_local",
+     "kind": "local",
+     "cost": "free",
+     "python": [
+      "whisper"
+     ],
+     "note": "Thai needs proofreading"
+    }
+   ]
+  },
+  "image_gen": {
+   "label": "สร้างภาพ (ฉาก / ตัวละคร)",
+   "options": [
+    {
+     "id": "codex_cli",
+     "kind": "cli",
+     "cost": "plan",
+     "cli": [
+      "codex"
+     ],
+     "globs": [
+      "~/AppData/Local/OpenAI/Codex/bin/*/codex.exe"
+     ],
+     "run": "bash <codex-dispatch>/run-codex.sh <repo> TASK.md <outdir> [ref images]",
+     "note": "inside a ChatGPT plan; accepts reference images"
+    },
+    {
+     "id": "openai_images_api",
+     "kind": "api",
+     "cost": "paid",
+     "env": [
+      "OPENAI_API_KEY"
+     ]
+    },
+    {
+     "id": "gemini_api",
+     "kind": "api",
+     "cost": "paid",
+     "env": [
+      "GEMINI_API_KEY",
+      "GOOGLE_API_KEY"
+     ]
+    },
+    {
+     "id": "image_mcp",
+     "kind": "mcp",
+     "cost": "paid",
+     "mcp_tools": [
+      "generate_image",
+      "text_to_image",
+      "partner_generate",
+      "creative_generate_image",
+      "image_to_image"
+     ],
+     "note": "Higgsfield / Kling / ComfyUI / Artlist / Adobe etc. Quote the price first."
+    },
+    {
+     "id": "library_reuse",
+     "kind": "local",
+     "cost": "free",
+     "paths": [
+      "jobs/*/*/assets/plates",
+      "jobs/*/*/assets/cast"
+     ],
+     "note": "reuse existing plates/cast"
+    }
+   ]
+  },
+  "music": {
+   "label": "เพลงประกอบ",
+   "options": [
+    {
+     "id": "artlist_mcp",
+     "kind": "mcp",
+     "cost": "plan",
+     "mcp_tools": [
+      "search_music",
+      "download_track"
+     ],
+     "note": "needs the user's own Artlist subscription"
+    },
+    {
+     "id": "elevenlabs_music",
+     "kind": "mcp",
+     "cost": "paid",
+     "mcp_tools": [
+      "generate_music",
+      "creative_generate_in_flow"
+     ]
+    },
+    {
+     "id": "library_music",
+     "kind": "local",
+     "cost": "free",
+     "paths": [
+      "library/audio/music"
+     ],
+     "note": "only tracks this user is licensed for"
+    }
+   ]
+  },
+  "sfx": {
+   "label": "เสียงเอฟเฟกต์ (SFX / foley)",
+   "options": [
+    {
+     "id": "artlist_sfx_mcp",
+     "kind": "mcp",
+     "cost": "plan",
+     "mcp_tools": [
+      "search_sfx",
+      "download_track"
+     ]
+    },
+    {
+     "id": "library_sfx",
+     "kind": "local",
+     "cost": "free",
+     "paths": [
+      "library/audio/sfx",
+      "library/audio/foley"
+     ]
+    },
+    {
+     "id": "earshot_bank",
+     "kind": "local",
+     "cost": "free",
+     "cli": [
+      "earshot"
+     ],
+     "paths": [
+      "C:/earshot"
+     ],
+     "note": "code-made SFX bank (earshot sfx/kit)"
+    }
+   ]
+  },
+  "web_research": {
+   "label": "หาข่าว / แหล่งอ้างอิง / สกรีนช็อต",
+   "options": [
+    {
+     "id": "web_tools",
+     "kind": "mcp",
+     "cost": "free",
+     "mcp_tools": [
+      "WebSearch",
+      "WebFetch"
+     ]
+    },
+    {
+     "id": "chrome",
+     "kind": "mcp",
+     "cost": "free",
+     "mcp_tools": [
+      "claude-in-chrome"
+     ]
+    },
+    {
+     "id": "playwright_local",
+     "kind": "local",
+     "cost": "free",
+     "python": [
+      "playwright"
+     ],
+     "run": "python engine/tools/grab_doc.py"
+    }
+   ]
+  },
+  "render": {
+   "label": "เรนเดอร์ / มิกซ์ / QA",
+   "options": [
+    {
+     "id": "local_render",
+     "kind": "local",
+     "cost": "free",
+     "cli": [
+      "ffmpeg",
+      "ffprobe"
+     ],
+     "python": [
+      "playwright",
+      "numpy",
+      "PIL",
+      "pythainlp"
+     ],
+     "run": "python engine/render_par.py ... ; python engine/mix.py ..."
+    },
+    {
+     "id": "earshot_qa",
+     "kind": "local",
+     "cost": "free",
+     "cli": [
+      "earshot"
+     ],
+     "paths": [
+      "C:/earshot"
+     ],
+     "note": "optional audio critique"
+    }
+   ]
+  }
+ },
+ "bundles": {
+  "_note": "Offer the bundle that finishes the job with the FEWEST tools the user already has. needs = capability -> option ids (any one). Music/SFX: if the user has Artlist or the library covers it, nothing has to be generated.",
+  "type1": {
+   "needs": {
+    "word_timing_stt": [
+     "scribe_api",
+     "scribe_mcp",
+     "whisper_local"
+    ],
+    "music": [
+     "library_music",
+     "artlist_mcp",
+     "elevenlabs_music"
+    ],
+    "sfx": [
+     "library_sfx",
+     "artlist_sfx_mcp",
+     "earshot_bank"
+    ]
+   },
+   "note": "footage comes from the speaker; only timing + light music/SFX"
+  },
+  "type2": {
+   "needs": {
+    "voice_tts": [
+     "elevenlabs_api",
+     "elevenlabs_mcp",
+     "paxa_api"
+    ],
+    "word_timing_stt": [
+     "scribe_api",
+     "scribe_mcp",
+     "whisper_local"
+    ],
+    "image_gen": [
+     "codex_cli",
+     "openai_images_api",
+     "gemini_api",
+     "image_mcp",
+     "library_reuse"
+    ],
+    "music": [
+     "artlist_mcp",
+     "library_music",
+     "elevenlabs_music"
+    ],
+    "sfx": [
+     "artlist_sfx_mcp",
+     "library_sfx",
+     "earshot_bank"
+    ],
+    "web_research": [
+     "web_tools",
+     "chrome",
+     "playwright_local"
+    ]
+   }
+  },
+  "type3": {
+   "needs": {
+    "voice_tts": [
+     "elevenlabs_api",
+     "elevenlabs_mcp",
+     "paxa_api"
+    ],
+    "image_gen": [
+     "codex_cli",
+     "openai_images_api",
+     "gemini_api",
+     "image_mcp",
+     "library_reuse"
+    ],
+    "music": [
+     "artlist_mcp",
+     "library_music",
+     "elevenlabs_music"
+    ],
+    "sfx": [
+     "artlist_sfx_mcp",
+     "library_sfx",
+     "earshot_bank"
+    ]
+   }
+  },
+  "examples": [
+   {
+    "id": "A_elevenlabs_only",
+    "tools": [
+     "ElevenLabs"
+    ],
+    "covers": "voice + timing + images + music + SFX in one account (where the account has image/music/SFX)"
+   },
+   {
+    "id": "B_elevenlabs_artlist",
+    "tools": [
+     "ElevenLabs",
+     "Artlist"
+    ],
+    "covers": "ElevenLabs: voice + timing + images; Artlist: music + SFX (nothing to generate)"
+   },
+   {
+    "id": "C_codex_elevenlabs_artlist",
+    "tools": [
+     "Codex (ChatGPT plan)",
+     "ElevenLabs",
+     "Artlist"
+    ],
+    "covers": "current Data Echooo owner setup: Codex images, ElevenLabs voice only, Artlist audio"
+   },
+   {
+    "id": "D_library_first",
+    "tools": [
+     "ElevenLabs"
+    ],
+    "covers": "voice from ElevenLabs; plates/cast/music/SFX reused from this repo's library"
+   }
+  ],
+  "owner_rule": "Data Echooo owner (2026-11-12): ElevenLabs = voice only; images via Codex CLI. Do not route the owner's images to ElevenLabs unless they change this rule."
+ }
+}

@@ -1,0 +1,1282 @@
+{
+ "note": "v6: news first, then ideas (script_v6.md). Paper-collage look (ref AIพูด.mp4, gbro-collage-broll MIT). Visual = hero, caption = quiet. Times on input/voice.wav (spliced bridge + tightened). BG: one themed plate per beat in a locked CI collage style (method: seergioo_gil Vox-collage post), generated with Codex CLI; slow push per plate. v7: $8/$40 synced to the spoken words; price shot held to 33.55. Flashes removed (read as a 1-frame flicker). v8: hook and closing lines re-used from the v3 take (user: better hook, closing pronounced right); voice spliced, times remapped.",
+ "page": "engine/pages/news3.html",
+ "caption_script": "@caption_script_v8.txt",
+ "keywords": [
+  "90%",
+  "30%",
+  "49.1%",
+  "73.4%",
+  "$8",
+  "$40",
+  "Fable",
+  "Mythos",
+  "5.2",
+  "3D"
+ ],
+ "fixes": {
+  "Echo": "Echooo"
+ },
+ "mascot": {
+  "poses": [
+   {
+    "t": 0.0,
+    "pose": "wave"
+   },
+   {
+    "t": 23.54,
+    "pose": "thumbs"
+   },
+   {
+    "t": 33.68,
+    "pose": "wave"
+   },
+   {
+    "t": 40.79,
+    "pose": "thumbs"
+   },
+   {
+    "t": 48.15,
+    "pose": "wave"
+   },
+   {
+    "t": 55.15,
+    "pose": "thumbs"
+   },
+   {
+    "t": 61.83,
+    "pose": "wave"
+   }
+  ],
+  "emotes": [
+   {
+    "t": 1.024,
+    "type": "hop"
+   },
+   {
+    "t": 15.13,
+    "type": "happy"
+   },
+   {
+    "t": 26.63,
+    "type": "hop"
+   },
+   {
+    "t": 37.03,
+    "type": "hop"
+   },
+   {
+    "t": 62.03,
+    "type": "hop"
+   }
+  ],
+  "moves": [
+   {
+    "t": 36.73,
+    "x": 540,
+    "y": 2040,
+    "scale": 0.82
+   },
+   {
+    "t": 40.63,
+    "x": 830,
+    "y": 2010,
+    "scale": 0.56
+   },
+   {
+    "t": 61.73,
+    "x": 540,
+    "y": 2040,
+    "scale": 0.78
+   }
+  ]
+ },
+ "flashes": [],
+ "shots": [
+  {
+   "t0": 0.0,
+   "t1": 3.6,
+   "bg": "#FFF8EC",
+   "src": "anthropic.com",
+   "pieces": [
+    {
+     "k": "doc",
+     "doc": "p_90b",
+     "x": 80,
+     "y": 380,
+     "w": 920,
+     "rot": -3,
+     "at": 0,
+     "from": "bottom",
+     "highlights": [
+      {
+       "phrase": "Over 90% of the changes merged into Anthropic’s core codebase",
+       "at": 1.0
+      }
+     ]
+    },
+    {
+     "k": "tape",
+     "x": 430,
+     "y": 360,
+     "w": 230,
+     "rot": -6,
+     "at": 0.15,
+     "from": "top"
+    },
+    {
+     "k": "num",
+     "value": 90,
+     "suf": "%",
+     "x": 470,
+     "y": 760,
+     "rot": 4,
+     "at": 2.1,
+     "from": "drop",
+     "bg": "#111",
+     "ink": "#FFF8EC",
+     "size": 230
+    }
+   ],
+   "sheet": false
+  },
+  {
+   "t0": 3.6,
+   "t1": 5.5,
+   "bg": "#FFF8EC",
+   "cut_sfx": "whoosh",
+   "src": "anthropic.com",
+   "pieces": [
+    {
+     "k": "photo",
+     "img": "assets/media/poster1.jpg",
+     "halftone": false,
+     "x": 70,
+     "y": 330,
+     "w": 940,
+     "rot": 2,
+     "at": 0,
+     "from": "left"
+    },
+    {
+     "k": "logo",
+     "svg": "claude_official",
+     "h": 110,
+     "x": 760,
+     "y": 290,
+     "rot": 8,
+     "at": 0.5,
+     "from": "top"
+    }
+   ],
+   "sheet": false
+  },
+  {
+   "t0": 5.5,
+   "t1": 7.16,
+   "bg": "#FFF8EC",
+   "cut_sfx": "whoosh",
+   "pieces": [
+    {
+     "k": "card",
+     "html": "<div style='font:800 54px Kanit;letter-spacing:4px'>NOV</div><div style='font:900 300px/0.9 \"Red Hat Display\"'>9</div><div style='font:700 44px Kanit'>2026</div>",
+     "x": 330,
+     "y": 380,
+     "w": 420,
+     "rot": -4,
+     "at": 0,
+     "from": "drop",
+     "bg": "#F1E6D2"
+    },
+    {
+     "k": "tape",
+     "x": 450,
+     "y": 360,
+     "w": 200,
+     "rot": 4,
+     "at": 0.2,
+     "from": "top"
+    }
+   ],
+   "sheet": false
+  },
+  {
+   "t0": 7.16,
+   "t1": 11.07,
+   "bg": "#FFF8EC",
+   "src": "anthropic.com",
+   "pieces": [
+    {
+     "k": "photo",
+     "img": "assets/hero_title.jpg",
+     "x": 40,
+     "y": 330,
+     "w": 1000,
+     "rot": -2,
+     "at": 0,
+     "from": "bottom"
+    },
+    {
+     "k": "card",
+     "html": "Claude Fable 5.2",
+     "x": 70,
+     "y": 780,
+     "rot": -5,
+     "at": 1.1,
+     "from": "left",
+     "bg": "#F1E6D2",
+     "size": 70
+    },
+    {
+     "k": "card",
+     "html": "Claude Mythos 5.2",
+     "x": 420,
+     "y": 900,
+     "rot": 4,
+     "at": 2.2,
+     "from": "right",
+     "bg": "#111",
+     "ink": "#FFF8EC",
+     "size": 70
+    }
+   ],
+   "sheet": false
+  },
+  {
+   "t0": 11.07,
+   "t1": 14.23,
+   "bg": "#FFF8EC",
+   "cut_sfx": "shutter",
+   "src": "anthropic.com/news",
+   "pieces": [
+    {
+     "k": "photo",
+     "img": "assets/newsroom_card.png",
+     "x": 60,
+     "y": 380,
+     "w": 960,
+     "rot": 2,
+     "at": 0,
+     "from": "bottom"
+    },
+    {
+     "k": "tape",
+     "x": 120,
+     "y": 360,
+     "w": 220,
+     "rot": -8,
+     "at": 0.2,
+     "from": "top"
+    },
+    {
+     "k": "tape",
+     "x": 760,
+     "y": 360,
+     "w": 220,
+     "rot": 7,
+     "at": 0.25,
+     "from": "top"
+    }
+   ],
+   "sheet": false
+  },
+  {
+   "t0": 14.23,
+   "t1": 16.07,
+   "bg": "#FFF8EC",
+   "cut_sfx": "whoosh",
+   "pieces": [
+    {
+     "k": "card",
+     "html": "Fable 5.2",
+     "x": 60,
+     "y": 470,
+     "rot": -6,
+     "at": 0,
+     "from": "left",
+     "bg": "#F1E6D2",
+     "size": 80
+    },
+    {
+     "k": "card",
+     "html": "=",
+     "x": 470,
+     "y": 450,
+     "rot": 3,
+     "at": 0.55,
+     "from": "drop",
+     "bg": "#FE4C1C",
+     "ink": "#FFF8EC",
+     "size": 150
+    },
+    {
+     "k": "card",
+     "html": "Mythos 5.2",
+     "x": 610,
+     "y": 470,
+     "rot": 5,
+     "at": 0.25,
+     "from": "right",
+     "bg": "#111",
+     "ink": "#FFF8EC",
+     "size": 80
+    }
+   ],
+   "sheet": false
+  },
+  {
+   "t0": 16.07,
+   "t1": 20.89,
+   "bg": "#FFF8EC",
+   "cut_sfx": "shutter",
+   "src": "anthropic.com",
+   "pieces": [
+    {
+     "k": "doc",
+     "doc": "p_same",
+     "x": 70,
+     "y": 360,
+     "w": 940,
+     "rot": -2,
+     "at": 0,
+     "from": "bottom",
+     "highlights": [
+      {
+       "phrase": "Claude Fable and Claude Mythos are the same underlying model.",
+       "at": 0.3
+      }
+     ]
+    },
+    {
+     "k": "card",
+     "html": "🛡️",
+     "x": 140,
+     "y": 760,
+     "rot": -8,
+     "at": 1.65,
+     "from": "drop",
+     "bg": "#214AFF",
+     "size": 130
+    },
+    {
+     "k": "card",
+     "html": "👥",
+     "x": 640,
+     "y": 780,
+     "rot": 6,
+     "at": 3.4,
+     "from": "drop",
+     "bg": "#00C2BB",
+     "size": 130
+    }
+   ],
+   "sheet": false
+  },
+  {
+   "t0": 20.89,
+   "t1": 23.54,
+   "bg": "#FFF8EC",
+   "cut_sfx": "whoosh",
+   "src": "anthropic.com",
+   "pieces": [
+    {
+     "k": "card",
+     "html": "Mythos 5.2",
+     "x": 90,
+     "y": 380,
+     "rot": -4,
+     "at": 0,
+     "from": "left",
+     "bg": "#F1E6D2",
+     "size": 96
+    },
+    {
+     "k": "card",
+     "html": "🔒",
+     "x": 720,
+     "y": 330,
+     "rot": 8,
+     "at": 0.8,
+     "from": "drop",
+     "bg": "#FE4C1C",
+     "size": 130
+    },
+    {
+     "k": "doc",
+     "doc": "p_same",
+     "x": 90,
+     "y": 640,
+     "w": 900,
+     "rot": 2,
+     "at": 1.1,
+     "from": "bottom",
+     "highlights": [
+      {
+       "phrase": "Verification Programs",
+       "at": 1.7
+      }
+     ]
+    }
+   ],
+   "sheet": false
+  },
+  {
+   "t0": 23.54,
+   "t1": 26.48,
+   "bg": "#FFF8EC",
+   "cut_sfx": "whoosh",
+   "src": "Anthropic",
+   "pieces": [
+    {
+     "k": "photo",
+     "img": "assets/media/poster1.jpg",
+     "halftone": false,
+     "x": 50,
+     "y": 320,
+     "w": 620,
+     "rot": -5,
+     "at": 0,
+     "from": "left"
+    },
+    {
+     "k": "photo",
+     "img": "assets/media/poster2.jpg",
+     "halftone": false,
+     "x": 440,
+     "y": 540,
+     "w": 600,
+     "rot": 4,
+     "at": 1.5,
+     "from": "right"
+    },
+    {
+     "k": "photo",
+     "img": "assets/media/poster4.jpg",
+     "halftone": false,
+     "x": 90,
+     "y": 760,
+     "w": 600,
+     "rot": -2,
+     "at": 2.2,
+     "from": "bottom"
+    }
+   ],
+   "sheet": false
+  },
+  {
+   "t0": 26.48,
+   "t1": 28.49,
+   "bg": "#FFF8EC",
+   "cut_sfx": "whoosh",
+   "src": "anthropic.com",
+   "pieces": [
+    {
+     "k": "num",
+     "value": 30,
+     "pre": "+",
+     "suf": "%",
+     "x": 180,
+     "y": 360,
+     "rot": -4,
+     "at": 1.1,
+     "from": "drop",
+     "bg": "#FFF8EC",
+     "size": 260
+    },
+    {
+     "k": "doc",
+     "doc": "p_faster",
+     "x": 70,
+     "y": 760,
+     "w": 940,
+     "rot": 2,
+     "at": 0,
+     "from": "bottom",
+     "highlights": [
+      {
+       "phrase": "up to 30% faster",
+       "at": 1.1
+      }
+     ]
+    }
+   ],
+   "sheet": false
+  },
+  {
+   "t0": 28.49,
+   "t1": 33.68,
+   "bg": "#FFF8EC",
+   "cut_sfx": "shutter",
+   "src": "anthropic.com",
+   "pieces": [
+    {
+     "k": "doc",
+     "doc": "p_faster",
+     "x": 70,
+     "y": 330,
+     "w": 940,
+     "rot": -2,
+     "at": 0,
+     "from": "bottom",
+     "highlights": [
+      {
+       "phrase": "available at a lower price: $8 per million input tokens and $40 per million output tokens",
+       "at": 0.3
+      }
+     ]
+    },
+    {
+     "k": "num",
+     "value": 8,
+     "pre": "$",
+     "x": 90,
+     "y": 520,
+     "rot": -5,
+     "at": 0.85,
+     "from": "left",
+     "bg": "#214AFF",
+     "ink": "#FFF8EC",
+     "size": 230
+    },
+    {
+     "k": "card",
+     "html": "per 1M input tokens",
+     "x": 120,
+     "y": 800,
+     "rot": -3,
+     "at": 2.15,
+     "from": "left",
+     "bg": "#111",
+     "ink": "#FFF8EC",
+     "size": 40,
+     "weight": 700
+    },
+    {
+     "k": "num",
+     "value": 40,
+     "pre": "$",
+     "x": 500,
+     "y": 740,
+     "rot": 4,
+     "at": 2.9,
+     "from": "right",
+     "bg": "#FE4C1C",
+     "ink": "#FFF8EC",
+     "size": 230
+    },
+    {
+     "k": "card",
+     "html": "per 1M output tokens",
+     "x": 520,
+     "y": 990,
+     "rot": 3,
+     "at": 3.6,
+     "from": "right",
+     "bg": "#111",
+     "ink": "#FFF8EC",
+     "size": 40,
+     "weight": 700
+    }
+   ],
+   "sheet": false
+  },
+  {
+   "t0": 33.68,
+   "t1": 36.86,
+   "bg": "#FFF8EC",
+   "cut_sfx": "whoosh",
+   "src": "anthropic.com",
+   "pieces": [
+    {
+     "k": "logo",
+     "svg": "claude_lockup",
+     "h": 70,
+     "x": 80,
+     "y": 380,
+     "rot": -4,
+     "at": 0.15,
+     "from": "left"
+    },
+    {
+     "k": "logo",
+     "svg": "aws_official",
+     "h": 80,
+     "x": 600,
+     "y": 400,
+     "rot": 5,
+     "at": 0.85,
+     "from": "right"
+    },
+    {
+     "k": "logo",
+     "svg": "googlecloud_official",
+     "h": 70,
+     "x": 70,
+     "y": 660,
+     "rot": 3,
+     "at": 1.72,
+     "from": "left"
+    },
+    {
+     "k": "logo",
+     "x": 500,
+     "y": 860,
+     "rot": -5,
+     "at": 2.6,
+     "from": "right",
+     "svg": "azure_lockup",
+     "h": 70
+    }
+   ],
+   "sheet": false
+  },
+  {
+   "t0": 36.86,
+   "t1": 40.79,
+   "bg": "#FFF8EC",
+   "pieces": [
+    {
+     "k": "card",
+     "html": "&lt;/&gt;",
+     "x": 110,
+     "y": 430,
+     "rot": -8,
+     "at": 0.15,
+     "from": "drop",
+     "bg": "#F1E6D2",
+     "size": 110
+    },
+    {
+     "k": "card",
+     "html": "🧊",
+     "x": 420,
+     "y": 400,
+     "rot": 4,
+     "at": 0.35,
+     "from": "drop",
+     "bg": "#F1E6D2",
+     "size": 110
+    },
+    {
+     "k": "card",
+     "html": "📊",
+     "x": 720,
+     "y": 440,
+     "rot": 9,
+     "at": 0.55,
+     "from": "drop",
+     "bg": "#F1E6D2",
+     "size": 110
+    }
+   ],
+   "sheet": false
+  },
+  {
+   "t0": 40.79,
+   "t1": 44.89,
+   "bg": "#FFF8EC",
+   "cut_sfx": "shutter",
+   "section": "1/3 · งานโค้ด",
+   "src": "anthropic.com · FrontierCode 2.0",
+   "pieces": [
+    {
+     "k": "photo",
+     "img": "assets/chart_frontier_crop.png",
+     "x": 40,
+     "y": 360,
+     "w": 1000,
+     "rot": -1.5,
+     "at": 0,
+     "from": "bottom"
+    },
+    {
+     "k": "num",
+     "value": 49.1,
+     "dec": 1,
+     "suf": "%",
+     "x": 520,
+     "y": 800,
+     "rot": 5,
+     "at": 2.62,
+     "from": "drop",
+     "bg": "#FE4C1C",
+     "ink": "#FFF8EC",
+     "size": 170
+    }
+   ],
+   "sheet": false
+  },
+  {
+   "t0": 44.89,
+   "t1": 48.15,
+   "bg": "#FFF8EC",
+   "section": "1/3 · งานโค้ด",
+   "src": "anthropic.com",
+   "pieces": [
+    {
+     "k": "doc",
+     "doc": "p_rustb",
+     "x": 70,
+     "y": 380,
+     "w": 940,
+     "rot": -2,
+     "at": 0,
+     "from": "bottom",
+     "highlights": [
+      {
+       "phrase": "migrated a critical production service from Python to Rust",
+       "at": 1.5
+      }
+     ]
+    },
+    {
+     "k": "card",
+     "html": "Python → Rust",
+     "x": 330,
+     "y": 880,
+     "rot": 4,
+     "at": 2.4,
+     "from": "drop",
+     "bg": "#214AFF",
+     "ink": "#FFF8EC",
+     "size": 64
+    }
+   ],
+   "sheet": false
+  },
+  {
+   "t0": 48.15,
+   "t1": 52.84,
+   "bg": "#FFF8EC",
+   "cut_sfx": "whoosh",
+   "section": "2/3 · งาน 3D",
+   "src": "@Yuziyyaa บน X · ทำด้วย Fable 5.2",
+   "pieces": [
+    {
+     "k": "video",
+     "n": 5,
+     "t": 0.2,
+     "x": 40,
+     "y": 340,
+     "w": 1000,
+     "rot": -2,
+     "at": 0,
+     "from": "bottom"
+    },
+    {
+     "k": "logo",
+     "svg": "unity",
+     "label": "Unity",
+     "h": 80,
+     "x": 640,
+     "y": 300,
+     "rot": 7,
+     "at": 1.6,
+     "from": "top"
+    },
+    {
+     "k": "card",
+     "html": "“building higher-quality 3D scenes from scratch”",
+     "x": 70,
+     "y": 860,
+     "w": 940,
+     "rot": 1.5,
+     "at": 2.6,
+     "from": "bottom",
+     "bg": "#F1E6D2",
+     "size": 42,
+     "weight": 700
+    }
+   ],
+   "sheet": false
+  },
+  {
+   "t0": 52.84,
+   "t1": 55.15,
+   "bg": "#FFF8EC",
+   "section": "2/3 · งาน 3D",
+   "src": "@scottstts · @higgsfield_ai บน X · Fable 5.2",
+   "pieces": [
+    {
+     "k": "video",
+     "n": 6,
+     "t": 0.5,
+     "x": 40,
+     "y": 330,
+     "w": 680,
+     "rot": -4,
+     "at": 0,
+     "from": "left"
+    },
+    {
+     "k": "video",
+     "n": 7,
+     "t": 0.4,
+     "x": 360,
+     "y": 650,
+     "w": 680,
+     "rot": 3,
+     "at": 0.45,
+     "from": "right"
+    }
+   ],
+   "sheet": false
+  },
+  {
+   "t0": 55.15,
+   "t1": 60.05,
+   "bg": "#FFF8EC",
+   "cut_sfx": "whoosh",
+   "section": "3/3 · อ่านกราฟ",
+   "src": "anthropic.com · Chartography",
+   "pieces": [
+    {
+     "k": "card",
+     "html": "Chartography",
+     "x": 620,
+     "y": 930,
+     "rot": 2,
+     "at": 0,
+     "from": "top",
+     "bg": "#111",
+     "ink": "#FFF8EC",
+     "size": 46
+    },
+    {
+     "k": "card",
+     "html": "<b>Fable 5.2</b> &nbsp; 73.4%",
+     "x": 60,
+     "y": 360,
+     "w": 900,
+     "rot": -1,
+     "at": 0.05,
+     "from": "left",
+     "bg": "#214AFF",
+     "ink": "#FFF8EC",
+     "size": 54
+    },
+    {
+     "k": "card",
+     "html": "Gemini 4 Carbon &nbsp; 72.5%",
+     "x": 60,
+     "y": 490,
+     "w": 888,
+     "rot": 0.5,
+     "at": 0.15,
+     "from": "left",
+     "bg": "#F1E6D2",
+     "size": 48,
+     "weight": 700
+    },
+    {
+     "k": "card",
+     "html": "GPT-6 Astra &nbsp; 71.0%",
+     "x": 60,
+     "y": 600,
+     "w": 870,
+     "rot": -0.5,
+     "at": 0.25,
+     "from": "left",
+     "bg": "#F1E6D2",
+     "size": 48,
+     "weight": 700
+    },
+    {
+     "k": "card",
+     "html": "Opus 5.5 &nbsp; 64.4%",
+     "x": 60,
+     "y": 710,
+     "w": 790,
+     "rot": 0.8,
+     "at": 0.35,
+     "from": "left",
+     "bg": "#F1E6D2",
+     "size": 48,
+     "weight": 700
+    },
+    {
+     "k": "card",
+     "html": "Fable 5.1 &nbsp; 44.8%",
+     "x": 60,
+     "y": 820,
+     "w": 550,
+     "rot": -0.6,
+     "at": 0.45,
+     "from": "left",
+     "bg": "#F1E6D2",
+     "size": 48,
+     "weight": 700
+    },
+    {
+     "k": "tape",
+     "x": 40,
+     "y": 380,
+     "w": 160,
+     "rot": -30,
+     "at": 1.25,
+     "from": "drop"
+    }
+   ],
+   "sheet": false
+  },
+  {
+   "t0": 60.05,
+   "t1": 61.83,
+   "bg": "#FFF8EC",
+   "section": "3/3 · อ่านกราฟ",
+   "pieces": [
+    {
+     "k": "card",
+     "html": "📊",
+     "x": 110,
+     "y": 470,
+     "rot": -6,
+     "at": 0,
+     "from": "left",
+     "bg": "#214AFF",
+     "size": 140
+    },
+    {
+     "k": "card",
+     "html": "→",
+     "x": 440,
+     "y": 520,
+     "rot": 0,
+     "at": 0.25,
+     "from": "drop",
+     "bg": "#111",
+     "ink": "#FFF8EC",
+     "size": 110
+    },
+    {
+     "k": "card",
+     "html": "📝",
+     "x": 680,
+     "y": 470,
+     "rot": 6,
+     "at": 0.5,
+     "from": "right",
+     "bg": "#FE4C1C",
+     "size": 140
+    }
+   ],
+   "sheet": false
+  },
+  {
+   "t0": 61.83,
+   "t1": 68.66,
+   "bg": "#FFF8EC",
+   "cut_sfx": "chime",
+   "src": "anthropic.com · คลิป 3D: @Yuziyyaa @scottstts @higgsfield_ai",
+   "pieces": [
+    {
+     "k": "photo",
+     "img": "brand:logo/Logo-DE-long.png",
+     "x": 90,
+     "y": 400,
+     "w": 900,
+     "rot": -3,
+     "at": 0,
+     "from": "drop",
+     "torn": false
+    },
+    {
+     "k": "card",
+     "html": "กดติดตาม",
+     "x": 340,
+     "y": 640,
+     "rot": 3,
+     "at": 1.65,
+     "from": "bottom",
+     "bg": "#FE4C1C",
+     "ink": "#FFF8EC",
+     "size": 84
+    }
+   ],
+   "sheet": false
+  }
+ ],
+ "desks": [
+  {
+   "img": "assets/plates_min/p01_code.png",
+   "t0": 0.0,
+   "t1": 5.5,
+   "keys": [
+    {
+     "t": 0.0,
+     "x": 0,
+     "y": 0,
+     "s": 1.255
+    },
+    {
+     "t": 5.5,
+     "x": 0,
+     "y": 0,
+     "s": 1.29
+    }
+   ]
+  },
+  {
+   "img": "assets/plates_min/p02_launch.png",
+   "t0": 5.5,
+   "t1": 11.07,
+   "keys": [
+    {
+     "t": 5.5,
+     "x": 205.1,
+     "y": 0,
+     "s": 1.255
+    },
+    {
+     "t": 11.07,
+     "x": 241.0,
+     "y": 0,
+     "s": 1.29
+    }
+   ]
+  },
+  {
+   "img": "assets/plates_min/p03_title.png",
+   "t0": 11.07,
+   "t1": 14.23,
+   "keys": [
+    {
+     "t": 11.07,
+     "x": 205.1,
+     "y": 0,
+     "s": 1.255
+    },
+    {
+     "t": 14.23,
+     "x": 241.0,
+     "y": 0,
+     "s": 1.29
+    }
+   ]
+  },
+  {
+   "img": "assets/plates_min/p04_twins.png",
+   "t0": 14.23,
+   "t1": 20.89,
+   "keys": [
+    {
+     "t": 14.23,
+     "x": 0,
+     "y": 7.7,
+     "s": 1.255
+    },
+    {
+     "t": 20.89,
+     "x": 0,
+     "y": 61.4,
+     "s": 1.29
+    }
+   ]
+  },
+  {
+   "img": "assets/plates_min/p05_shield.png",
+   "t0": 20.89,
+   "t1": 23.54,
+   "keys": [
+    {
+     "t": 20.89,
+     "x": 205.1,
+     "y": 7.7,
+     "s": 1.255
+    },
+    {
+     "t": 23.54,
+     "x": 241.0,
+     "y": 61.4,
+     "s": 1.29
+    }
+   ]
+  },
+  {
+   "img": "assets/plates_min/p06_skills.png",
+   "t0": 23.54,
+   "t1": 26.48,
+   "keys": [
+    {
+     "t": 23.54,
+     "x": 0,
+     "y": 0,
+     "s": 1.255
+    },
+    {
+     "t": 26.48,
+     "x": 0,
+     "y": 0,
+     "s": 1.29
+    }
+   ]
+  },
+  {
+   "img": "assets/plates_min/p07_speed.png",
+   "t0": 26.48,
+   "t1": 28.49,
+   "keys": [
+    {
+     "t": 26.48,
+     "x": 205.1,
+     "y": 0,
+     "s": 1.255
+    },
+    {
+     "t": 28.49,
+     "x": 241.0,
+     "y": 0,
+     "s": 1.29
+    }
+   ]
+  },
+  {
+   "img": "assets/plates_min/p08_price.png",
+   "t0": 28.49,
+   "t1": 33.68,
+   "keys": [
+    {
+     "t": 28.49,
+     "x": 0,
+     "y": 7.7,
+     "s": 1.255
+    },
+    {
+     "t": 33.68,
+     "x": 0,
+     "y": 61.4,
+     "s": 1.29
+    }
+   ]
+  },
+  {
+   "img": "assets/plates_min/p09_cloud.png",
+   "t0": 33.68,
+   "t1": 36.86,
+   "keys": [
+    {
+     "t": 33.68,
+     "x": 102.6,
+     "y": 0,
+     "s": 1.255
+    },
+    {
+     "t": 36.86,
+     "x": 120.5,
+     "y": 0,
+     "s": 1.29
+    }
+   ]
+  },
+  {
+   "img": "assets/plates_min/p10_ideas.png",
+   "t0": 36.86,
+   "t1": 40.79,
+   "keys": [
+    {
+     "t": 36.86,
+     "x": 205.1,
+     "y": 0,
+     "s": 1.255
+    },
+    {
+     "t": 40.79,
+     "x": 241.0,
+     "y": 0,
+     "s": 1.29
+    }
+   ]
+  },
+  {
+   "img": "assets/plates_min/p01_code.png",
+   "t0": 40.79,
+   "t1": 48.15,
+   "keys": [
+    {
+     "t": 40.79,
+     "x": 0,
+     "y": 0,
+     "s": 1.255
+    },
+    {
+     "t": 48.15,
+     "x": 0,
+     "y": 0,
+     "s": 1.29
+    }
+   ]
+  },
+  {
+   "img": "assets/plates_min/p11_3d.png",
+   "t0": 48.15,
+   "t1": 55.15,
+   "keys": [
+    {
+     "t": 48.15,
+     "x": 205.1,
+     "y": 7.7,
+     "s": 1.255
+    },
+    {
+     "t": 55.15,
+     "x": 241.0,
+     "y": 61.4,
+     "s": 1.29
+    }
+   ]
+  },
+  {
+   "img": "assets/plates_min/p12_charts.png",
+   "t0": 55.15,
+   "t1": 61.83,
+   "keys": [
+    {
+     "t": 55.15,
+     "x": 0,
+     "y": 7.7,
+     "s": 1.255
+    },
+    {
+     "t": 61.83,
+     "x": 0,
+     "y": 61.4,
+     "s": 1.29
+    }
+   ]
+  },
+  {
+   "img": "assets/plates_min/p13_cta.png",
+   "t0": 61.83,
+   "t1": 68.66,
+   "keys": [
+    {
+     "t": 61.83,
+     "x": 205.1,
+     "y": 7.7,
+     "s": 1.255
+    },
+    {
+     "t": 69.079,
+     "x": 241.0,
+     "y": 61.4,
+     "s": 1.29
+    }
+   ]
+  }
+ ],
+ "grid": {
+  "tints": [
+   {
+    "t": 0,
+    "bg": null,
+    "line": "rgba(33,74,255,.06)",
+    "major": null,
+    "w": 1
+   }
+  ]
+ },
+ "caption_starts": {
+  "$8": 29.38,
+  "$40": 31.43
+ }
+}

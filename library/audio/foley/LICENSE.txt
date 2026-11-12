@@ -1,0 +1,10 @@
+Foley / ambience: Artlist licensed downloads under the user's subscription (2026-11-12). Role file <- Artlist title (artist):
+dishes_sink.wav  <- Kitchen - Washing Dishes in the Sink, Splashing (Sound Ex Machina)
+diner_walla.wav  <- Different Crowds - American Diner, Loud Walla (Bjorn Lynne)
+pencil.wav       <- Household Devices - Pencil Writing (Artlist Foley)
+keyboard.wav     <- Media Basics - Computers Keyboard, Short Typing (Fly Sound)
+paper_tear.wav   <- Material Manipulation - Tearing Paper, Cardboard (Epic Stock Media)
+tapestop.wav     <- Records Vol 2 - Kick Grabbed, Straight Slow Down Stop (Julien Matthey)
+phone_ring.wav   <- Telephone, desk phone ring (Airborne Sound)
+cup_place.wav    <- Domestic Living - Placing Plate on Wood Table (TeaSound)
+Long files (walla, dishes, pencil, phone) are beds: the mixer cue sets `dur` and they fade out.
