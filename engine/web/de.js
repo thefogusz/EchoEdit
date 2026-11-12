@@ -4,21 +4,31 @@
 
 const DE = (window.DE = {});
 
+// Brand tokens come from brand/brand.json (one place to change colours and fonts). Read synchronously so page code
+// that runs at load already sees them; the defaults below are only a fallback if the file cannot be read.
+DE.brand = (() => {
+  try { const x = new XMLHttpRequest(); x.open('GET', new URL('../../brand/brand.json', document.currentScript.src), false); x.send();
+    return JSON.parse(x.responseText); } catch (e) { console.warn('brand.json not read, using defaults', e); return {}; }
+})();
 DE.color = {
   blue: '#214AFF', blueDark: '#0B1B66', ice: '#F3F7FF', sky: '#9EE8FF', teal: '#00C2BB',
   orange: '#FE4C1C', slate: '#A5B7D2', ink: '#1A1B1E', text: '#363636', white: '#FFFFFF',
 };
+for (const [k, v] of Object.entries(DE.brand.colors || {})) DE.color[k.replace(/_(\w)/g, (_, c) => c.toUpperCase())] = v.hex || v;
 
+// Pages use the role aliases DEHead (Thai headline), DEBody (Thai body), DELatin (Latin display), never a family name,
+// so a new brand font is a brand.json edit.
+DE.fontRoles = DE.brand.fonts && DE.brand.fonts.headline_th ? DE.brand.fonts : {
+  headline_th: { alias: 'DEHead', faces: [{ file: 'fonts/Kanit-Bold.ttf', weight: '700' }, { file: 'fonts/Kanit-Black.ttf', weight: '900' }, { file: 'fonts/Kanit-ExtraBoldItalic.ttf', weight: '800', style: 'italic' }] },
+  body_th: { alias: 'DEBody', faces: [{ file: 'fonts/IBMPlexSansThai-Regular.ttf', weight: '400' }, { file: 'fonts/IBMPlexSansThai-Bold.ttf', weight: '700' }] },
+  latin_display: { alias: 'DELatin', faces: [{ file: 'fonts/RedHatDisplay-Var.ttf', weight: '300 900' }] },
+};
 DE.injectFonts = async function (base) {
-  const css = `
-  @font-face{font-family:Kanit;font-weight:700;src:url(${base}/fonts/Kanit-Bold.ttf)}
-  @font-face{font-family:Kanit;font-weight:900;src:url(${base}/fonts/Kanit-Black.ttf)}
-  @font-face{font-family:Kanit;font-weight:800;font-style:italic;src:url(${base}/fonts/Kanit-ExtraBoldItalic.ttf)}
-  @font-face{font-family:'IBM Plex Sans Thai';font-weight:400;src:url(${base}/fonts/IBMPlexSansThai-Regular.ttf)}
-  @font-face{font-family:'IBM Plex Sans Thai';font-weight:700;src:url(${base}/fonts/IBMPlexSansThai-Bold.ttf)}
-  @font-face{font-family:'Red Hat Display';font-weight:300 900;src:url(${base}/fonts/RedHatDisplay-Var.ttf)}`;
+  const roles = Object.entries(DE.fontRoles).filter(([k, r]) => !k.startsWith('_') && r.alias);
+  const css = roles.flatMap(([, r]) => r.faces.map((f) =>
+    `@font-face{font-family:${r.alias};font-weight:${f.weight || '400'};font-style:${f.style || 'normal'};src:url(${base}/${f.file})}`)).join('\n');
   const s = document.createElement('style'); s.textContent = css; document.head.appendChild(s);
-  const probes = ['900 40px Kanit', '700 40px Kanit', 'italic 800 40px Kanit', '700 40px "IBM Plex Sans Thai"', '400 40px "IBM Plex Sans Thai"', '800 40px "Red Hat Display"'];
+  const probes = roles.flatMap(([, r]) => r.faces.map((f) => `${f.style === 'italic' ? 'italic ' : ''}${String(f.weight || 400).split(' ').pop()} 40px ${r.alias}`));
   await Promise.all(probes.map((p) => document.fonts.load(p, 'กขคAa')));
   await document.fonts.ready;
 };
@@ -78,7 +88,7 @@ DE.Captions = class {
     const box = document.createElement('div');
     Object.assign(box.style, {
       maxWidth: s.maxWidth + 'px', textAlign: 'center', lineHeight: '1.45', padding: band ? (s.bandPad || '18px 40px 22px') : '0 20px',
-      font: `900 ${s.size}px Kanit, "IBM Plex Sans Thai", sans-serif`, color: band ? DE.color.ink : '#fff',
+      font: `900 ${s.size}px DEHead, DEBody, sans-serif`, color: band ? DE.color.ink : '#fff',
       background: band ? 'rgba(255,255,255,0.97)' : 'none', borderRadius: band ? '28px' : '0',
       boxShadow: band ? `0 10px 0 ${DE.color.blue}, 0 18px 40px rgba(0,0,0,.25)` : 'none',
       transformOrigin: '50% 50%', wordBreak: 'keep-all', overflowWrap: 'normal',

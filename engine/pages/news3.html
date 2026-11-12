@@ -13,12 +13,12 @@
   .pc{position:absolute;transform-origin:50% 50%;will-change:transform}
   .kl{background:#FFF8EC;padding:12px;box-shadow:0 18px 30px rgba(0,0,0,.28),0 2px 0 rgba(0,0,0,.08)}
   .kl img,.kl video,.kl canvas{display:block;width:100%}
-  .card{font-family:Kanit;padding:22px 34px 28px;box-shadow:0 14px 24px rgba(0,0,0,.25);line-height:1.12}
-  .num{font:900 210px/1 'Red Hat Display',Kanit;letter-spacing:-6px;padding:18px 40px 26px;box-shadow:0 16px 28px rgba(0,0,0,.28)}
+  .card{font-family:DEHead;padding:22px 34px 28px;box-shadow:0 14px 24px rgba(0,0,0,.25);line-height:1.12}
+  .num{font:900 210px/1 DELatin,DEHead;letter-spacing:-6px;padding:18px 40px 26px;box-shadow:0 16px 28px rgba(0,0,0,.28)}
   .tape{position:absolute;height:54px;background:rgba(255,248,236,.78);box-shadow:0 2px 6px rgba(0,0,0,.12)}
   .hl{position:absolute;background:#FFE14D;mix-blend-mode:multiply;transform-origin:0 50%}
-  .src{position:absolute;left:60px;top:250px;font:700 28px 'IBM Plex Sans Thai';color:#111;background:#FFF8EC;padding:6px 18px;z-index:35;box-shadow:0 4px 10px rgba(0,0,0,.18)}
-  .sect{position:absolute;right:60px;top:250px;font:800 32px Kanit;color:#FFF8EC;background:#111;padding:6px 20px 9px;z-index:35}
+  .src{position:absolute;left:60px;top:250px;font:700 28px DEBody;color:#111;background:#FFF8EC;padding:6px 18px;z-index:35;box-shadow:0 4px 10px rgba(0,0,0,.18)}
+  .sect{position:absolute;right:60px;top:250px;font:800 32px DEHead;color:#FFF8EC;background:#111;padding:6px 20px 9px;z-index:35}
 </style></head>
 <body>
 <canvas id="grid" width="1080" height="1920" style="position:absolute;left:0;top:0;z-index:1;pointer-events:none"></canvas>
@@ -52,7 +52,7 @@ async function piece(p) {
   } else if (p.k === 'card') {
     el.innerHTML = `<div class="card" style="background:${p.bg || '#FFF8EC'};color:${p.ink || '#111'};font-size:${p.size || 64}px;font-weight:${p.weight || 800};clip-path:${p.torn ? torn : 'none'}">${p.html}</div>`;
   } else if (p.k === 'logo') {
-    el.innerHTML = `<div class="kl" style="padding:26px 30px;display:flex;align-items:center;gap:22px;font:800 ${p.size || 54}px Kanit;color:#111">${p.svg ? `<img src="${J('assets/logos/' + p.svg + '.svg')}" style="height:${p.h || 90}px;width:auto">` : ''}${p.label ? `<span>${p.label}</span>` : ''}</div>`;
+    el.innerHTML = `<div class="kl" style="padding:26px 30px;display:flex;align-items:center;gap:22px;font:800 ${p.size || 54}px DEHead;color:#111">${p.svg ? `<img src="${J('assets/logos/' + p.svg + '.svg')}" style="height:${p.h || 90}px;width:auto">` : ''}${p.label ? `<span>${p.label}</span>` : ''}</div>`;
   } else if (p.k === 'num') {
     el.innerHTML = `<div class="num" style="background:${p.bg || '#FFF8EC'};color:${p.ink || '#111'};font-size:${p.size || 210}px"><span data-num="${p.value}" data-dec="${p.dec || 0}" data-pre="${p.pre || ''}" data-suf="${p.suf || ''}">0</span></div>`;
   } else if (p.k === 'tape') {
@@ -64,7 +64,7 @@ async function piece(p) {
 
 async function build(s) {
   const el = document.createElement('div'); el.className = 'shot';
-  if (!D.desk && !D.grid) el.style.background = s.bg || '#214AFF';
+  if (!D.desk && !D.grid) el.style.background = s.bg || DE.color.blue;
   const cam = document.createElement('div'); cam.className = 'cam'; el.appendChild(cam); const pcs0 = [];
   if ((D.desk || D.grid) && s.sheet && s.sheet !== false) {  // brand colour as a sheet of paper laid on the desk under the content
     const sh = document.createElement('div'); sh.className = 'sheet pc'; const sd = Object.assign({ x: 50, y: 300, w: 980, h: 900, rot: -1.5 }, s.sheet || {});

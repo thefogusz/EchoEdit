@@ -2,18 +2,53 @@
   "name": "Data Echooo",
   "tagline_th": "เสียงสะท้อนจากข้อมูล",
   "promise_th": "เข้าใจข้อมูล = เข้าใจมนุษย์ = เข้าใจโอกาส",
-  "pillars": ["Data Insights & Trends", "Data Storytelling", "Case Studies & Business Use", "Tools & Techniques"],
+  "pillars": [
+    "Data Insights & Trends",
+    "Data Storytelling",
+    "Case Studies & Business Use",
+    "Tools & Techniques"
+  ],
   "colors": {
-    "blue":      {"hex": "#214AFF", "source": "logo files + website primary (verified)"},
-    "blue_dark": {"hex": "#0B1B66", "source": "derived: hero gradient end on website, social post backgrounds"},
-    "ice":       {"hex": "#F3F7FF", "source": "website section background (verified)"},
-    "sky":       {"hex": "#9EE8FF", "source": "website accent (verified)"},
-    "teal":      {"hex": "#00C2BB", "source": "website accent (verified)"},
-    "orange":    {"hex": "#FE4C1C", "source": "website CTA button 'Subscribe' (verified)"},
-    "slate":     {"hex": "#A5B7D2", "source": "website muted text (verified)"},
-    "ink":       {"hex": "#1A1B1E", "source": "website dark text (verified)"},
-    "text":      {"hex": "#363636", "source": "website body text (verified)"},
-    "white":     {"hex": "#FFFFFF", "source": "logo reverse (verified)"}
+    "blue": {
+      "hex": "#214AFF",
+      "source": "logo files + website primary (verified)"
+    },
+    "blue_dark": {
+      "hex": "#0B1B66",
+      "source": "derived: hero gradient end on website, social post backgrounds"
+    },
+    "ice": {
+      "hex": "#F3F7FF",
+      "source": "website section background (verified)"
+    },
+    "sky": {
+      "hex": "#9EE8FF",
+      "source": "website accent (verified)"
+    },
+    "teal": {
+      "hex": "#00C2BB",
+      "source": "website accent (verified)"
+    },
+    "orange": {
+      "hex": "#FE4C1C",
+      "source": "website CTA button 'Subscribe' (verified)"
+    },
+    "slate": {
+      "hex": "#A5B7D2",
+      "source": "website muted text (verified)"
+    },
+    "ink": {
+      "hex": "#1A1B1E",
+      "source": "website dark text (verified)"
+    },
+    "text": {
+      "hex": "#363636",
+      "source": "website body text (verified)"
+    },
+    "white": {
+      "hex": "#FFFFFF",
+      "source": "logo reverse (verified)"
+    }
   },
   "roles": {
     "primary": "blue",
@@ -25,21 +60,117 @@
     "background_dark": "blue_dark"
   },
   "fonts": {
-    "headline_th": {"family": "Kanit", "files": ["fonts/Kanit-Bold.ttf", "fonts/Kanit-Black.ttf", "fonts/Kanit-ExtraBoldItalic.ttf"], "source": "loaded on website"},
-    "body_th":     {"family": "IBM Plex Sans Thai", "files": ["fonts/IBMPlexSansThai-Regular.ttf", "fonts/IBMPlexSansThai-Bold.ttf"], "source": "main website font"},
-    "latin_display": {"family": "Red Hat Display", "files": ["fonts/RedHatDisplay-Var.ttf"], "source": "loaded on website"}
+    "_note": "Swap a brand font here only: change family + faces (files in brand/fonts, licence next to them). Pages never name a family; they use the alias (DEHead / DEBody / DELatin).",
+    "headline_th": {
+      "alias": "DEHead",
+      "family": "Kanit",
+      "source": "loaded on website",
+      "faces": [
+        {
+          "file": "fonts/Kanit-Bold.ttf",
+          "weight": "700"
+        },
+        {
+          "file": "fonts/Kanit-Black.ttf",
+          "weight": "900"
+        },
+        {
+          "file": "fonts/Kanit-ExtraBoldItalic.ttf",
+          "weight": "800",
+          "style": "italic"
+        }
+      ]
+    },
+    "body_th": {
+      "alias": "DEBody",
+      "family": "IBM Plex Sans Thai",
+      "source": "main website font",
+      "faces": [
+        {
+          "file": "fonts/IBMPlexSansThai-Regular.ttf",
+          "weight": "400"
+        },
+        {
+          "file": "fonts/IBMPlexSansThai-Bold.ttf",
+          "weight": "700"
+        }
+      ]
+    },
+    "latin_display": {
+      "alias": "DELatin",
+      "family": "Red Hat Display",
+      "source": "loaded on website",
+      "faces": [
+        {
+          "file": "fonts/RedHatDisplay-Var.ttf",
+          "weight": "300 900"
+        }
+      ]
+    }
   },
-  "logo": {"color": "logo/DataEchooo-logo.png", "white": "logo/DataEchooo-logo-WH.png", "square": "logo/Primary_Square.png", "long": "logo/Logo-DE-long.png", "svg_black": "logo/DataEchooo-logo-BL.svg"},
+  "logo": {
+    "color": "logo/DataEchooo-logo.png",
+    "white": "logo/DataEchooo-logo-WH.png",
+    "square": "logo/Primary_Square.png",
+    "long": "logo/Logo-DE-long.png",
+    "svg_black": "logo/DataEchooo-logo-BL.svg"
+  },
   "motif": "three sound-wave arcs (the 'ooo' in Echooo) -> ripple wipe transition and end-card sting",
   "voice_th": "เป็นกันเอง เข้าใจง่าย มีข้อมูลรองรับ ใช้คำอังกฤษสายเทคได้ตามธรรมชาติ (AI, Data, Insight) อีโมจิได้ในแคปชันโพสต์ ไม่ใช้ในวิดีโอ",
-  "canvas": {"width": 1080, "height": 1920, "fps": 30},
-  "safe_zone": {"top": 220, "bottom": 420, "left": 60, "right": 140},
+  "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "safe_zone": {
+    "top": 220,
+    "bottom": 420,
+    "left": 60,
+    "right": 140
+  },
   "mascot": {
     "dir": "mascot/",
-    "size": [900, 1355],
-    "bases": {"wave": "base_wave.png", "thumbs": "base_thumbs.png"},
-    "overlays": {"eyes_closed": "eyes_closed.png", "mouth_open": {"wave": "mouth_open.png", "thumbs": "thumbs_mouth_open.png"}},
-    "mouth_anchor_y": {"wave": 603, "thumbs": 605},
-    "extra_poses": {"thinking": "pose_thinking.png", "writing": "pose_writing.png", "happy": "Safe_Cartoon2D.png"}
+    "size": [
+      900,
+      1355
+    ],
+    "bases": {
+      "wave": "base_wave.png",
+      "thumbs": "base_thumbs.png"
+    },
+    "overlays": {
+      "eyes_closed": "eyes_closed.png",
+      "mouth_open": {
+        "wave": "mouth_open.png",
+        "thumbs": "thumbs_mouth_open.png"
+      }
+    },
+    "mouth_anchor_y": {
+      "wave": 603,
+      "thumbs": 605
+    },
+    "extra_poses": {
+      "thinking": "pose_thinking.png",
+      "writing": "pose_writing.png",
+      "happy": "Safe_Cartoon2D.png"
+    }
+  },
+  "voices": {
+    "_note": "Narration voices. Add the team's own ElevenLabs voice as a profile and point by_type at it. pipelines/tts_elevenlabs.py --voice takes a profile name (or a raw voice id).",
+    "profiles": {
+      "aidan": {
+        "provider": "elevenlabs",
+        "voice_id": "EOVAuWqgSZN2Oel78Psj",
+        "model": "eleven_v4",
+        "speed": 1.0,
+        "stability": 0.5,
+        "name": "Aidan - Social Media Influencer",
+        "approved": "2026-11-12, finals of type 2 and type 3"
+      }
+    },
+    "by_type": {
+      "type2": "aidan",
+      "type3": "aidan"
+    }
   }
 }

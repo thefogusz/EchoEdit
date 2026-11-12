@@ -17,9 +17,9 @@
 //  - full:  speaker only, slow punch-in on strong statements
 //  - every insert is REAL content that moves ON the spoken word (logos one by one, a counter on the number,
 //    a meter that drops on "not enough", posts that multiply on "quantity"), never a text card repeating the caption.
-// Our CI: ice background, hairline grid, cobalt/teal/orange, Kanit / IBM Plex Sans Thai / Red Hat Display.
+// Our CI: ice background, hairline grid, cobalt/teal/orange, DEHead / DEBody / DELatin.
 let D, cap, V, g, imgs = {};
-const W = 1080, H = 1920, BLUE = '#214AFF', TEAL = '#00C2BB', ORANGE = '#FE4C1C', INK = '#1A1B1E', SKY = '#9EE8FF';
+const W = 1080, H = 1920, BLUE = DE.color.blue, TEAL = DE.color.teal, ORANGE = DE.color.orange, INK = DE.color.ink, SKY = DE.color.sky;
 const J = (p) => D.jobBase + '/' + p;
 const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x)), lerp = (a, b, k) => a + (b - a) * k;
 const E = (k) => 1 - Math.pow(1 - clamp(k), 3), POP = (d) => (d <= 0 ? 0 : DE.spring(d, 12, 0.5));
@@ -47,14 +47,14 @@ function frame(layout, f, z) {
 
 // ---------- insert painters: (o = insert spec, t = absolute time, R = {x,y,w,h} panel rect) ----------
 function panel(R) {  // brand panel: ice + hairline grid
-  g.fillStyle = '#F3F7FF'; g.fillRect(R.x, R.y, R.w, R.h);
+  g.fillStyle = DE.color.ice; g.fillRect(R.x, R.y, R.w, R.h);
   g.strokeStyle = 'rgba(33,74,255,.07)'; g.lineWidth = 1;
   for (let x = R.x; x <= R.x + R.w; x += 60) { g.beginPath(); g.moveTo(x + 0.5, R.y); g.lineTo(x + 0.5, R.y + R.h); g.stroke(); }
   for (let y = R.y; y <= R.y + R.h; y += 60) { g.beginPath(); g.moveTo(R.x, y + 0.5); g.lineTo(R.x + R.w, y + 0.5); g.stroke(); }
 }
 function txt(s, x, y, font, color, align = 'center') { g.font = font; g.fillStyle = color; g.textAlign = align; g.textBaseline = 'middle'; g.fillText(s, x, y); }
 function card(x, y, w, h, r = 28, fill = '#fff') { g.save(); g.shadowColor = 'rgba(33,74,255,.16)'; g.shadowBlur = 30; g.shadowOffsetY = 10; g.fillStyle = fill; g.beginPath(); g.roundRect(x, y, w, h, r); g.fill(); g.restore(); }
-function source(s, R) { txt(s, R.x + R.w - 40, R.y + R.h - 36, "600 26px 'IBM Plex Sans Thai'", '#5B6B8C', 'right'); }
+function source(s, R) { txt(s, R.x + R.w - 40, R.y + R.h - 36, "600 26px DEBody", '#5B6B8C', 'right'); }
 
 const INS = {
   logos(o, t, R) {  // AI tools appear one by one on the word; a small row of all of them collects underneath (ref01)
@@ -79,19 +79,19 @@ const INS = {
     g.globalAlpha = clamp((t - o.at) / 0.15); card(x, y, w, h, 36);
     g.fillStyle = SKY; g.beginPath(); g.arc(x + 150, y + 150, 86, 0, 7); g.fill();
     g.fillStyle = BLUE; g.beginPath(); g.arc(x + 150, y + 130, 34, 0, 7); g.fill(); g.beginPath(); g.ellipse(x + 150, y + 215, 60, 40, 0, Math.PI, 0); g.fill();
-    txt(o.title, x + 280, y + 120, "900 76px Kanit", INK, 'left'); txt(o.sub, x + 282, y + 196, "600 38px 'IBM Plex Sans Thai'", '#5B6B8C', 'left');
+    txt(o.title, x + 280, y + 120, "900 76px DEHead", INK, 'left'); txt(o.sub, x + 282, y + 196, "600 38px DEBody", '#5B6B8C', 'left');
     o.tags.forEach((s, i) => { const kk = E((t - o.at - 0.3 - i * 0.15) / 0.3); if (kk <= 0) return; g.globalAlpha = kk;
-      g.font = "700 34px 'IBM Plex Sans Thai'"; const tw = g.measureText(s).width + 50; const tx = x + 60 + o.tags.slice(0, i).reduce((a, q) => a + g.measureText(q).width + 70, 0);
+      g.font = "700 34px DEBody"; const tw = g.measureText(s).width + 50; const tx = x + 60 + o.tags.slice(0, i).reduce((a, q) => a + g.measureText(q).width + 70, 0);
       g.fillStyle = i === o.tags.length - 1 ? ORANGE : '#E7EEFF'; g.beginPath(); g.roundRect(tx, y + 290, tw, 70, 35); g.fill();
-      txt(s, tx + tw / 2, y + 326, "700 34px 'IBM Plex Sans Thai'", i === o.tags.length - 1 ? '#fff' : BLUE); });
+      txt(s, tx + tw / 2, y + 326, "700 34px DEBody", i === o.tags.length - 1 ? '#fff' : BLUE); });
     g.globalAlpha = 1;
   },
   stat(o, t, R) {  // counter on the number + people icons that light up (2 of 3) + source
     const cx = R.x + R.w / 2, k = clamp((t - o.at) / 0.9), v = Math.round(o.to * (1 - Math.pow(1 - k, 4)));
-    if (t >= o.at) { txt(v + '%', cx, R.y + R.h * 0.3, "900 220px 'Red Hat Display'", BLUE); txt(o.label, cx, R.y + R.h * 0.3 + 150, "700 48px 'IBM Plex Sans Thai'", INK); }
+    if (t >= o.at) { txt(v + '%', cx, R.y + R.h * 0.3, "900 220px DELatin", BLUE); txt(o.label, cx, R.y + R.h * 0.3 + 150, "700 48px DEBody", INK); }
     for (let i = 0; i < 3; i++) { const on = i < o.lit && t >= o.at + 0.5 + i * 0.2, px = cx + (i - 1) * 170, py = R.y + R.h * 0.72;
       g.fillStyle = on ? BLUE : '#C9D6F5'; g.beginPath(); g.arc(px, py - 60, 42, 0, 7); g.fill(); g.beginPath(); g.ellipse(px, py + 40, 70, 60, 0, Math.PI, 0); g.fill();
-      if (on) { g.fillStyle = TEAL; g.beginPath(); g.roundRect(px + 26, py - 120, 64, 40, 20); g.fill(); txt('AI', px + 58, py - 99, "800 26px 'Red Hat Display'", '#fff'); } }
+      if (on) { g.fillStyle = TEAL; g.beginPath(); g.roundRect(px + 26, py - 120, 64, 40, 20); g.fill(); txt('AI', px + 58, py - 99, "800 26px DELatin", '#fff'); } }
     source(o.source, R);
   },
   post(o, t, R) {  // one content post being made (the old way: one post at a time)
@@ -109,7 +109,7 @@ const INS = {
       const appear = o.at[i]; if (t < appear) return; const a = POP(t - appear);
       const x = R.x + R.w * (i ? 0.66 : 0.34), top = R.y + 170, hgt = R.h - 360;
       g.globalAlpha = clamp((t - appear) / 0.15);
-      txt(en, x, top - 80 + 30 * (1 - a), "800 64px 'Red Hat Display'", col); txt(th, x, top - 20, "700 40px 'IBM Plex Sans Thai'", INK);
+      txt(en, x, top - 80 + 30 * (1 - a), "800 64px DELatin", col); txt(th, x, top - 20, "700 40px DEBody", INK);
       g.fillStyle = '#DCE4F7'; g.beginPath(); g.roundRect(x - 90, top + 30, 180, hgt, 30); g.fill();
       const fh = hgt * clamp(lv(key)); g.fillStyle = col; g.beginPath(); g.roundRect(x - 90, top + 30 + hgt - fh, 180, fh, 30); g.fill();
       g.globalAlpha = 1;
@@ -123,9 +123,9 @@ const INS = {
       const x = R.x + 140 + i * 200, base = [0.35, 0.8, 0.5, 0.25, 0.6][i], h = (R.h - 300) * lerp(base, 0.86, k), y = R.y + R.h - 120;
       g.fillStyle = i === 1 ? BLUE : '#9FB2E0'; g.beginPath(); g.roundRect(x - 60, y - h, 120, h, 20); g.fill();
       g.fillStyle = '#fff'; g.beginPath(); g.arc(x, y - h - 50, 36, 0, 7); g.fill(); g.strokeStyle = '#C9D6F5'; g.lineWidth = 4; g.stroke();
-      if (sp > 0) { g.globalAlpha = sp; g.fillStyle = TEAL; g.beginPath(); g.roundRect(x - 34, y - h - 70, 68, 40, 20); g.fill(); txt('AI', x, y - h - 50, "800 26px 'Red Hat Display'", '#fff'); g.globalAlpha = 1; }
+      if (sp > 0) { g.globalAlpha = sp; g.fillStyle = TEAL; g.beginPath(); g.roundRect(x - 34, y - h - 70, 68, 40, 20); g.fill(); txt('AI', x, y - h - 50, "800 26px DELatin", '#fff'); g.globalAlpha = 1; }
     }
-    if (t >= o.even) txt(o.label, R.x + R.w / 2, R.y + 110, "800 60px Kanit", INK);
+    if (t >= o.even) txt(o.label, R.x + R.w / 2, R.y + 110, "800 60px DEHead", INK);
   },
   grid(o, t, R) {  // posts multiply on "จำนวน": 1 -> 4 -> 16 -> 64
     const steps = o.steps, st = steps.filter((q) => t >= q.t).pop(); if (!st) return;
@@ -134,7 +134,7 @@ const INS = {
       const cx = x0 + (i % cols) * cell + cell / 2, cy = y0 + Math.floor(i / cols) * cell + cell / 2, s = cell * 0.84 * (0.6 + 0.4 * k);
       g.fillStyle = '#fff'; g.beginPath(); g.roundRect(cx - s / 2, cy - s / 2, s, s, s * 0.08); g.fill(); g.strokeStyle = '#C9D6F5'; g.lineWidth = 2; g.stroke();
       g.fillStyle = [BLUE, SKY, TEAL, '#E7EEFF'][i % 4]; g.fillRect(cx - s * 0.4, cy - s * 0.4, s * 0.8, s * 0.5); }
-    txt('× ' + n, R.x + R.w - 120, R.y + 90, "900 72px 'Red Hat Display'", ORANGE);
+    txt('× ' + n, R.x + R.w - 120, R.y + 90, "900 72px DELatin", ORANGE);
   },
   crowd(o, t, R) {  // everyone already uses it: avatars light up with an AI badge, wave from left to right
     const cols = 8, rows = 4, cw = (R.w - 160) / cols, rh = (R.h - 260) / rows;
@@ -143,7 +143,7 @@ const INS = {
       g.fillStyle = on ? BLUE : '#C9D6F5'; g.beginPath(); g.arc(x, y - 22, 24, 0, 7); g.fill(); g.beginPath(); g.ellipse(x, y + 34, 40, 34, 0, Math.PI, 0); g.fill();
       if (on) { g.fillStyle = TEAL; g.beginPath(); g.arc(x + 26, y - 42, 14, 0, 7); g.fill(); }
     }
-    if (t >= o.at) txt(o.label, R.x + R.w / 2, R.y + 90, "800 60px Kanit", INK);
+    if (t >= o.at) txt(o.label, R.x + R.w / 2, R.y + 90, "800 60px DEHead", INK);
   },
 };
 

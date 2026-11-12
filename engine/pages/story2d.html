@@ -15,7 +15,7 @@ canvas{position:absolute;left:0;top:0}</style></head>
 // teal screens (#00C2BB), cream text (#FFF8EC), brand-blue tags, Data Echooo logo bug, brand fonts.
 // Everything is a pure function of t (deterministic render).
 let D, g, cap, imgs = {}, logo;
-const W = 1080, H = 1920, CREAM = '#FFF8EC', BLUE = '#214AFF', TEAL = '#00C2BB', ORANGE = '#FE4C1C';
+const W = 1080, H = 1920, CREAM = '#FFF8EC', BLUE = DE.color.blue, TEAL = DE.color.teal, ORANGE = DE.color.orange;
 const J = (p) => p.startsWith('brand:') ? D.brandBase + '/' + p.slice(6) : D.jobBase + '/' + p;
 const E = TOON.ease, clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x)), lerp = (a, b, k) => a + (b - a) * k;
 const kv = (v, k) => Array.isArray(v) ? lerp(v[0], v[1], k) : v;   // [from,to] or constant
@@ -75,7 +75,7 @@ const PROPS = {
     g.fillStyle = '#C9CED8'; for (let i = -3; i <= 3; i++) for (const [dx, dy, w, h] of [[i * 18 - 4, -78, 8, 16], [i * 18 - 4, 62, 8, 16], [-78, i * 18 - 4, 16, 8], [62, i * 18 - 4, 16, 8]]) g.fillRect(dx, dy, w, h);
     g.fillStyle = '#20262F'; g.strokeStyle = INK; g.lineWidth = 4; g.beginPath(); g.roundRect(-64, -64, 128, 128, 10); g.fill(); g.stroke();
     g.fillStyle = TEAL; g.beginPath(); g.roundRect(-34, -34, 68, 68, 6); g.fill();
-    if (p.label) { g.fillStyle = INK; g.font = "800 26px 'Red Hat Display'"; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(p.label, 0, 2); }
+    if (p.label) { g.fillStyle = INK; g.font = "800 26px DELatin"; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(p.label, 0, 2); }
     g.restore();
   },
 };
@@ -92,11 +92,11 @@ Object.assign(PROPS, {
   box(p, t) {  // product box on a shelf; price tag drops to a lower price; dust specks (nobody buys it)
     g.save(); g.translate(p.x, p.y); g.scale(p.s || 1, p.s || 1);
     g.fillStyle = BLUE; g.strokeStyle = INK; g.lineWidth = 4; g.beginPath(); g.roundRect(-90, -150, 180, 150, 10); g.fill(); g.stroke();
-    g.fillStyle = '#fff'; g.font = "900 54px 'Red Hat Display'"; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(p.label || '', 0, -78);
+    g.fillStyle = '#fff'; g.font = "900 54px DELatin"; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(p.label || '', 0, -78);
     const k = E((t - (p.drop ?? 1e9)) / 0.5);
     g.save(); g.translate(96, -120); g.rotate(-0.3 + 0.35 * Math.sin(k * 6) * (1 - k));
     g.fillStyle = '#fff'; g.strokeStyle = INK; g.lineWidth = 3; g.beginPath(); g.roundRect(0, 0, 120, 56, 8); g.fill(); g.stroke();
-    g.fillStyle = k > 0 ? ORANGE : INK; g.font = "800 30px 'Red Hat Display'"; g.fillText(k > 0 ? (p.price2 || '') : (p.price || ''), 60, 30);
+    g.fillStyle = k > 0 ? ORANGE : INK; g.font = "800 30px DELatin"; g.fillText(k > 0 ? (p.price2 || '') : (p.price || ''), 60, 30);
     g.restore();
     for (let i = 0; i < 7; i++) { const a = (t * 0.3 + i * 0.37) % 1; g.fillStyle = `rgba(26,27,30,${0.25 * (1 - a)})`; g.beginPath(); g.arc(-80 + i * 26, -160 - a * 60, 3, 0, 7); g.fill(); }
     g.restore();
@@ -117,7 +117,7 @@ Object.assign(PROPS, {
     g.save(); g.translate(lerp(p.x0, p.x, k), p.y); g.rotate(-0.05 + 0.05 * k); g.scale(p.s || 1, p.s || 1);
     g.fillStyle = '#EAF6F5'; g.strokeStyle = INK; g.lineWidth = 3; g.beginPath(); g.roundRect(-150, -60, 300, 120, 10); g.fill(); g.stroke();
     g.fillStyle = TEAL; g.fillRect(-150, -60, 300, 22);
-    g.fillStyle = INK; g.font = "800 40px 'Red Hat Display'"; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(p.text || '', 0, 10);
+    g.fillStyle = INK; g.font = "800 40px DELatin"; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(p.text || '', 0, 10);
     g.strokeStyle = 'rgba(26,27,30,.4)'; g.lineWidth = 2; g.beginPath(); g.moveTo(40, 44); g.lineTo(130, 44); g.stroke();
     g.restore();
   },
@@ -130,7 +130,7 @@ Object.assign(PROPS, {
       let a = 1, dy = 0;
       if (rank[i] < n - p.keep) { const d = t - p.cut - (rank[i] / n) * 0.9; a = 1 - clamp(d / 0.35); dy = 18 * clamp(d / 0.35); }
       if (a <= 0) continue;
-      g.globalAlpha = a; g.fillStyle = [BLUE, TEAL, '#9EE8FF', '#5B6B8C'][i % 4]; g.strokeStyle = INK; g.lineWidth = 2.5;
+      g.globalAlpha = a; g.fillStyle = [BLUE, TEAL, DE.color.sky, '#5B6B8C'][i % 4]; g.strokeStyle = INK; g.lineWidth = 2.5;
       g.beginPath(); g.roundRect(cx - 13, cy + 8 + dy, 26, 30, 8); g.fill(); g.stroke();
       g.fillStyle = '#F1C79C'; g.beginPath(); g.arc(cx, cy - 4 + dy, 13, 0, 7); g.fill(); g.stroke();
     }
@@ -139,7 +139,7 @@ Object.assign(PROPS, {
 });
 
 function cta(o, t, t0) {  // end card: brand grid, logo, follow button, mascot pinned to the bottom edge
-  g.fillStyle = '#F3F7FF'; g.fillRect(0, 0, W, H);
+  g.fillStyle = DE.color.ice; g.fillRect(0, 0, W, H);
   g.strokeStyle = 'rgba(33,74,255,.07)'; g.lineWidth = 1;
   for (let x = 0; x <= W; x += 60) { g.beginPath(); g.moveTo(x + 0.5, 0); g.lineTo(x + 0.5, H); g.stroke(); }
   for (let y = 0; y <= H; y += 60) { g.beginPath(); g.moveTo(0, y + 0.5); g.lineTo(W, y + 0.5); g.stroke(); }
@@ -151,7 +151,7 @@ function cta(o, t, t0) {  // end card: brand grid, logo, follow button, mascot p
   g.save(); g.translate(W / 2, ly + lh + 110); g.scale(Math.max(0.001, b * pulse), Math.max(0.001, b * pulse));
   g.shadowColor = 'rgba(254,76,28,.35)'; g.shadowBlur = 30; g.shadowOffsetY = 10;
   g.fillStyle = ORANGE; g.beginPath(); g.roundRect(-230, -60, 460, 120, 60); g.fill(); g.shadowColor = 'transparent';
-  g.fillStyle = '#fff'; g.font = "900 64px Kanit"; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(o.button || 'กดติดตาม', 0, 6);
+  g.fillStyle = '#fff'; g.font = "900 64px DEHead"; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(o.button || 'กดติดตาม', 0, 6);
   g.restore(); g.globalAlpha = 1;
 }
 
@@ -160,7 +160,7 @@ Object.assign(PROPS, {
   phone(p, t) {  // desk phone; rings between p.ring0 and p.ring1 (handset rattles, ring marks)
     const ring = t >= (p.ring0 ?? 1e9) && t < (p.ring1 ?? 1e9), sh = ring ? Math.sin(t * 60) * 4 : 0;
     g.save(); g.translate(p.x, p.y); g.scale(p.s || 1, p.s || 1);
-    g.fillStyle = '#1A1B1E'; g.strokeStyle = INK; g.lineWidth = 3;
+    g.fillStyle = DE.color.ink; g.strokeStyle = INK; g.lineWidth = 3;
     g.beginPath(); g.roundRect(-70, -40, 140, 70, 16); g.fillStyle = ORANGE; g.fill(); g.stroke();      // base
     g.fillStyle = '#FFF8EC'; g.beginPath(); g.arc(0, -5, 24, 0, 7); g.fill(); g.stroke();             // dial
     g.save(); g.translate(sh, -48 - (ring ? Math.abs(Math.sin(t * 30)) * 10 : 0)); g.rotate(ring ? Math.sin(t * 45) * 0.08 : 0);
@@ -176,12 +176,12 @@ Object.assign(PROPS, {
     g.save(); g.translate(p.x, p.y); g.scale(p.s || 1, p.s || 1);
     g.fillStyle = '#fff'; g.strokeStyle = INK; g.lineWidth = 4; g.beginPath(); g.roundRect(-130, -150, 260, 300, 16); g.fill(); g.stroke();
     g.fillStyle = p.hot ? ORANGE : BLUE; g.beginPath(); g.roundRect(-130, -150, 260, 70, [16, 16, 0, 0]); g.fill(); g.stroke();
-    g.fillStyle = '#fff'; g.font = "800 36px 'IBM Plex Sans Thai'"; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(p.head || 'วันที่เหลือ', 0, -114);
-    g.fillStyle = INK; g.font = "900 140px 'Red Hat Display'"; g.fillText(String(num), 0, 30);
+    g.fillStyle = '#fff'; g.font = "800 36px DEBody"; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(p.head || 'วันที่เหลือ', 0, -114);
+    g.fillStyle = INK; g.font = "900 140px DELatin"; g.fillText(String(num), 0, 30);
     if (k > 0 && k < 1) {  // the old page falls away
       g.save(); g.translate(0, -80); g.rotate(-k * 1.2); g.globalAlpha = 1 - k;
       g.fillStyle = '#fff'; g.beginPath(); g.rect(-128, 0, 256, 228); g.fill(); g.stroke();
-      g.fillStyle = INK; g.font = "900 140px 'Red Hat Display'"; g.fillText(String(p.from), 0, 110); g.restore();
+      g.fillStyle = INK; g.font = "900 140px DELatin"; g.fillText(String(p.from), 0, 110); g.restore();
     }
     g.restore();
   },
@@ -209,7 +209,7 @@ Object.assign(PROPS, {
 function chip(o, t) {  // place / year label, top-left (ref: small location label)
   g.textAlign = 'left';
   const k = E((t - o.at) / 0.35); if (k <= 0) return;
-  g.save(); g.globalAlpha = k; g.font = "700 34px 'IBM Plex Sans Thai'"; const w = g.measureText(o.text).width + 70;
+  g.save(); g.globalAlpha = k; g.font = "700 34px DEBody"; const w = g.measureText(o.text).width + 70;
   g.shadowColor = 'rgba(33,74,255,.18)'; g.shadowBlur = 18; g.shadowOffsetY = 6; g.fillStyle = '#fff'; g.beginPath(); g.roundRect(60, 296 - 8 * (1 - k), w, 60, 30); g.fill(); g.shadowColor = 'transparent';
   g.fillStyle = TEAL; g.beginPath(); g.arc(88, 326 - 8 * (1 - k), 8, 0, 7); g.fill();
   g.fillStyle = BLUE; g.textBaseline = 'middle'; g.fillText(o.text, 108, 328 - 8 * (1 - k)); g.restore();
@@ -222,13 +222,13 @@ function tag(o, t, cam) {
   g.save(); g.globalAlpha = k; g.strokeStyle = BLUE; g.lineWidth = 3;
   g.beginPath(); g.moveTo(ax, ay); g.lineTo(lerp(ax, x, k), lerp(ay, y + 34, k)); g.stroke();
   g.beginPath(); g.arc(ax, ay, 7, 0, 7); g.fillStyle = BLUE; g.fill();
-  g.font = "900 40px Kanit"; const w = g.measureText(o.text).width + 48;
+  g.font = "900 40px DEHead"; const w = g.measureText(o.text).width + 48;
   const bx = o.align === 'right' ? x - w : x;
   g.fillStyle = BLUE; g.beginPath(); g.roundRect(bx, y, w * k, 68, 10); g.fill();
   g.save(); g.beginPath(); g.rect(bx, y, w * k, 68); g.clip();
   g.fillStyle = '#fff'; g.textBaseline = 'middle'; g.fillText(o.text, bx + 24, y + 37);
   g.restore();
-  if (o.sub) { g.font = "700 28px 'IBM Plex Sans Thai'"; g.fillStyle = '#1A1B1E'; g.fillText(o.sub, bx + 4, y + 96); }
+  if (o.sub) { g.font = "700 28px DEBody"; g.fillStyle = DE.color.ink; g.fillText(o.sub, bx + 4, y + 96); }
   g.restore();
 }
 function counter(o, t) {  // big data number (brand: "เสียงสะท้อนจากข้อมูล")
@@ -236,19 +236,19 @@ function counter(o, t) {  // big data number (brand: "เสียงสะท�
   const k = clamp((t - o.at) / (o.dur || 0.8)); if (t < o.at) return;
   const v = o.from + (o.to - o.from) * (1 - Math.pow(1 - k, 4));
   const txt = (o.prefix || '') + (o.dec ? v.toFixed(o.dec) : Math.round(v).toLocaleString('en-US')) + (o.suffix || '');
-  g.save(); g.globalAlpha = clamp((t - o.at) / 0.25); g.font = `900 ${o.size || 150}px 'Red Hat Display'`; g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.save(); g.globalAlpha = clamp((t - o.at) / 0.25); g.font = `900 ${o.size || 150}px DELatin`; g.textAlign = 'center'; g.textBaseline = 'middle';
   g.shadowColor = o.glow || TEAL; g.shadowBlur = 40; g.fillStyle = o.color || '#fff'; g.fillText(txt, o.x, o.y); g.shadowBlur = 0;
-  if (o.label) { g.font = "700 38px 'IBM Plex Sans Thai'"; g.fillStyle = CREAM; g.fillText(o.label, o.x, o.y + (o.size || 150) * 0.62); }
+  if (o.label) { g.font = "700 38px DEBody"; g.fillStyle = CREAM; g.fillText(o.label, o.x, o.y + (o.size || 150) * 0.62); }
   g.restore();
 }
 function card(o, t, t0, t1) {  // black interstitial text card, typed on (ref), our ink + cream + brand underline
   g.fillStyle = BLUE; g.fillRect(0, 0, W, H);
   const lines = o.lines, total = lines.join('').length, typed = Math.floor(total * clamp((t - t0) / (o.type || 1.2)));
-  g.font = `700 ${o.size || 78}px Kanit`; g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.font = `700 ${o.size || 78}px DEHead`; g.textAlign = 'center'; g.textBaseline = 'middle';
   let used = 0;
   lines.forEach((ln, i) => {
     const y = 900 - (lines.length - 1) * 60 + i * 120, n = clamp(typed - used, 0, ln.length); used += ln.length;
-    const shown = ln.slice(0, n); g.fillStyle = o.hot === i ? '#9EE8FF' : '#fff'; g.fillText(shown, W / 2, y);
+    const shown = ln.slice(0, n); g.fillStyle = o.hot === i ? DE.color.sky : '#fff'; g.fillText(shown, W / 2, y);
     if (o.hot === i && n === ln.length) { const w = g.measureText(ln).width; const k = E((t - t0 - (o.type || 1.2)) / 0.4); g.fillStyle = ORANGE; g.fillRect(W / 2 - w / 2, y + 52, w * k, 10); }
   });
 }
@@ -257,12 +257,12 @@ function pill(t) {  // tension device (top): money runway
   let v = P.values[0]; for (const x of P.values) if (t >= x.t) v = x;
   if (!v.text) return;
   const k = E((t - P.from) / 0.4), hot = v.hot && Math.sin(t * 8) > 0;
-  g.save(); g.globalAlpha = k; g.font = "700 32px 'IBM Plex Sans Thai'"; const lw = g.measureText(P.label).width;
-  g.font = "900 40px Kanit"; const vw = g.measureText(v.text).width; const w = lw + vw + 90, x = (W - w) / 2, y = 380;
+  g.save(); g.globalAlpha = k; g.font = "700 32px DEBody"; const lw = g.measureText(P.label).width;
+  g.font = "900 40px DEHead"; const vw = g.measureText(v.text).width; const w = lw + vw + 90, x = (W - w) / 2, y = 380;
   g.shadowColor = 'rgba(33,74,255,.2)'; g.shadowBlur = 20; g.shadowOffsetY = 6; g.fillStyle = '#fff'; g.beginPath(); g.roundRect(x, y, w, 72, 36); g.fill(); g.shadowColor = 'transparent';
   g.strokeStyle = v.hot ? ORANGE : BLUE; g.lineWidth = 3; g.stroke();
-  g.textBaseline = 'middle'; g.fillStyle = '#1A1B1E'; g.font = "700 32px 'IBM Plex Sans Thai'"; g.fillText(P.label, x + 34, y + 38);
-  g.fillStyle = v.hot ? (hot ? BLUE : ORANGE) : BLUE; g.font = "900 40px Kanit"; g.fillText(v.text, x + 56 + lw, y + 38);
+  g.textBaseline = 'middle'; g.fillStyle = DE.color.ink; g.font = "700 32px DEBody"; g.fillText(P.label, x + 34, y + 38);
+  g.fillStyle = v.hot ? (hot ? BLUE : ORANGE) : BLUE; g.font = "900 40px DEHead"; g.fillText(v.text, x + 56 + lw, y + 38);
   g.restore();
 }
 
@@ -280,7 +280,7 @@ function rewind(o, t, t0, t1) {  // speed lines rushing out from the centre + ye
     g.lineWidth = 2 + ph * 6; g.beginPath(); g.moveTo(Math.cos(a) * r0, Math.sin(a) * r0); g.lineTo(Math.cos(a) * (r0 + len), Math.sin(a) * (r0 + len)); g.stroke();
   }
   const y = Math.round(lerp(o.from, o.to, E(k * 1.15)));
-  g.font = "900 260px 'Red Hat Display'"; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillStyle = '#fff';
+  g.font = "900 260px DELatin"; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillStyle = '#fff';
   g.shadowColor = 'rgba(158,232,255,.9)'; g.shadowBlur = 50; g.fillText(String(y), 0, 0); g.shadowBlur = 0;
   g.restore();
 }
@@ -289,9 +289,9 @@ function titleCard(o, t, t0) {  // chapter title: brand blue, big name, sub line
   g.fillStyle = BLUE; g.fillRect(0, 0, W, H);
   const k = E((t - t0) / 0.35), k2 = E((t - t0 - 0.25) / 0.4);
   g.save(); g.textAlign = 'center'; g.textBaseline = 'middle';
-  g.globalAlpha = k; g.fillStyle = '#fff'; g.font = `900 ${o.size || 190}px 'Red Hat Display'`;
+  g.globalAlpha = k; g.fillStyle = '#fff'; g.font = `900 ${o.size || 190}px DELatin`;
   g.save(); g.translate(W / 2, 860); g.scale(1.08 - 0.08 * k, 1.08 - 0.08 * k); g.fillText(o.title, 0, 0); g.restore();
-  g.globalAlpha = k2; g.font = "700 64px Kanit"; g.fillStyle = '#9EE8FF'; g.fillText(o.sub, W / 2, 1010);
+  g.globalAlpha = k2; g.font = "700 64px DEHead"; g.fillStyle = DE.color.sky; g.fillText(o.sub, W / 2, 1010);
   const w = g.measureText(o.sub).width; g.fillStyle = ORANGE; g.fillRect(W / 2 - w / 2, 1060, w * k2, 10);
   g.restore();
 }
@@ -368,7 +368,7 @@ function drawLayered(s, t) {
 
 function drawShot(s, t) {  // draws one shot at time t into the current g
   g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.textAlign = 'left'; g.textBaseline = 'alphabetic'; g.shadowColor = 'transparent'; g.shadowBlur = 0; g.shadowOffsetY = 0; g.globalCompositeOperation = 'source-over'; g.setLineDash([]);
-  g.fillStyle = '#F3F7FF'; g.fillRect(0, 0, W, H);
+  g.fillStyle = DE.color.ice; g.fillRect(0, 0, W, H);
   const k = clamp((t - s.t0) / (s.t1 - s.t0));
   if (s.card && s.card.title) { titleCard(s.card, t, s.t0); return; }
   if (s.card) { card(s.card, t, s.t0, s.t1); return; }

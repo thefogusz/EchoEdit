@@ -16,6 +16,21 @@ The user's own words win over this file. When they correct something, update thi
 New clips start by copying the baseline job's pipeline and must be at least this good; the refs (refs/type1, AIพูด, refs/type3_yt) stay the direction to grow toward
 (type 3 next step: ref-style layered art, see REF_TYPE3_AUDIT "Layer anatomy").
 
+## What is fixed and what is swappable (user, 2026-11-12: the repo goes to the Data Echooo team)
+Our job is the **principles that make the visuals work**: shot grammar, pacing, transitions, what moves on which word,
+safe zones, caption rules, sound roles and levels. Assets are swappable and must never be hard-wired into a page.
+- **Brand tokens: `brand/brand.json` is the only place.** `engine/web/de.js` reads it at load.
+  - Colours: `colors` → `DE.color.<name>` (camelCase). Pages use `DE.color.*`, not hex literals.
+  - Fonts: `fonts.<role>` = alias + family + faces (files in `brand/fonts`, licence beside them). Pages use only the aliases
+    `DEHead` (Thai headline), `DEBody` (Thai body), `DELatin` (Latin display). A new font is a brand.json edit, no page edit.
+  - Logo, safe zone, canvas, mascot: also brand.json.
+- **Voices: `brand.json` → `voices`.** Add the team's own ElevenLabs voice as a profile (voice_id, model, speed, stability),
+  point `by_type` at it, then `python pipelines/tts_elevenlabs.py script.txt out.mp3 --type type3` (or `--voice <profile|id>`).
+  Check the new voice against the approved sample before building (rule §1).
+- **Music / SFX / images:** chosen per job through provider routing below; the roles and levels (§2) stay.
+- Any new hard-wired asset in a page is a bug: move it into brand.json or the job's scene data.
+- After changing brand.json or engine/, rebuild the three baseline scenes and compare a few frames with the finals.
+
 ## Provider routing: scan, then offer (works on any machine; user rule 2026-11-12)
 Never hard-wire one provider. At the start of a job (or when a step needs voice, timing, images, music or SFX):
 1. Run `python tools/capabilities.py`. It checks API keys (presence only, never values), CLIs (codex, ffmpeg, earshot),
@@ -57,11 +72,11 @@ Never hard-wire one provider. At the start of a job (or when a step needs voice,
   - Ideas: from any repo, NonCommercial included.
 
 ## 1. Voice
-- Type 2: ElevenLabs **Aidan - Social Media Influencer** `EOVAuWqgSZN2Oel78Psj`, `eleven_v4`.
+- Profiles live in `brand/brand.json` → `voices` (swap there). Current: type 2 + 3 = ElevenLabs **Aidan - Social Media Influencer** `EOVAuWqgSZN2Oel78Psj`, `eleven_v4`.
   - Scribe: attach the chosen take URL with `creative_attach_reference_file`, then transcribe that node. A speech node gives its FIRST take.
   - `engine/tighten.py` trims pauses (>0.28 s to 0.18 s, tempo 1.1).
-- Type 3: Paxa **khaotom** `--speed 1.1 --temperature 0.7`, one call per line (`pipelines/story/build_voice.py` trims and joins with beat gaps).
-  - Paxa returns real Thai word spans, so no Scribe is needed.
+- Type 3: same Aidan profile since 2026-11-12 (Paxa ran out of credits; user: "use the same voice as type 2"). Whole script in one call;
+  ElevenLabs returns character timing, so no Scribe pass. Paxa khaotom stays an option (`paxa_api` in providers.json).
   - Rejected: mooping/satay/kaprao at default settings ("tired, odd, not funny").
 - Script tone: natural spoken Thai, never narrate the structure (no "ข่าวครบแล้ว…"). The user approves the script before any TTS.
 

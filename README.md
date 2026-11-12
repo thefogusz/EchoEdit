@@ -53,6 +53,14 @@ deliverables/              คลิปไฟนอลล่าสุด 1 ต�
   `ffmpeg -i jobs/type1_talkinghead/2026-11-12_th_sample/input/footage.mp4 -an -c:v libvpx-vp9 -b:v 2M -r 30 jobs/type1_talkinghead/2026-11-12_th_sample/assets/footage.webm`
 - **แนว 2 หลัง clone:** คลิปวิดีโอแทรกจาก X (`assets/media/v5-v7.webm`) ไม่อยู่ใน repo (ลิขสิทธิ์เจ้าของโพสต์) ที่มาอยู่ใน `CREDITS.txt` และ `assets/media/3d_clips.json`
 
+## ปรับเปลี่ยนแบรนด์ / ฟอนต์ / เสียง (แก้ที่ `brand/brand.json` ที่เดียว)
+- **สี:** `colors` หน้าเรนเดอร์ทุกหน้าอ่านจากที่นี่ (`DE.color.*`)
+- **ฟอนต์:** `fonts` มี 3 บทบาท หัวข้อไทย / เนื้อความไทย / ตัวอังกฤษ เปลี่ยน `family` กับ `faces` แล้ววางไฟล์ฟอนต์ใน `brand/fonts` (ใส่ไฟล์ licence ด้วย) ไม่ต้องแก้หน้าใดเลย
+- **เสียงพากย์:** `voices.profiles` เพิ่มเสียงของทีมบน ElevenLabs (voice_id, model, speed) แล้วชี้ `voices.by_type` ไปที่ชื่อนั้น
+  `python pipelines/tts_elevenlabs.py script.txt out.mp3 --type type3` หรือ `--voice <ชื่อโปรไฟล์ หรือ voice_id>`
+- **โลโก้ / safe zone / ขนาดจอ / มาสคอต:** อยู่ใน brand.json เช่นกัน
+- สิ่งที่ repo นี้ล็อกไว้คือ**หลักการภาพ**: จังหวะตัด ทรานซิชัน ภาพขยับตรงคำ ตำแหน่งซับ บทบาทเสียงและระดับเสียง (ดูสกิลกับ `docs/REF_SPEC.md`) ส่วนตัว asset เปลี่ยนได้หมด
+
 ## สำหรับทีม: ใช้ต่อและพัฒนาต่อ
 - **กฎอยู่ที่เดียว:** แก้วิธีทำงานที่ `.claude/skills/de-video/SKILL.md` แล้วจดเหตุผลใน `docs/REF_SPEC.md` (ข้อใหม่ต่อท้าย พร้อมวันที่และใครขอ) agent ตัวถัดไปจะทำตามเอง
 - **เพิ่มเครื่องมือ/บริการใหม่:** เพิ่ม option ใน `tools/providers.json` (kind api/cli/mcp/local, cost, env หรือ cli ที่ต้องมี, คำสั่ง run) แล้วรัน `python tools/capabilities.py typeN` ดูว่าเห็น ไม่ต้องแก้โค้ดสแกน

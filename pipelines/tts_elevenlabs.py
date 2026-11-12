@@ -5,16 +5,26 @@ Returns the audio plus per-character timing, so no Scribe pass is needed.
 Key: put ELEVENLABS_API_KEY=... in  ~/.config/dataechooo/elevenlabs.env  (never in the repo, never in chat).
 This script reads it and never prints it.
 
-usage: python pipelines/tts_elevenlabs.py <script.txt> <out.mp3> --voice <voice_id> [--model eleven_v4] [--speed 1.0]
+usage: python pipelines/tts_elevenlabs.py <script.txt> <out.mp3> [--voice <profile|voice_id>] [--type type2] [--model ..] [--speed ..]
+--voice takes a profile name from brand/brand.json "voices" (e.g. aidan) or a raw ElevenLabs voice id.
+Without --voice it uses voices.by_type[--type] (default type2). Model/speed/stability default to the profile.
 writes out.mp3 + out.json  ({"chars": [{"text","start","end"}...]} at character level, usable as Scribe-style items)
 """
 import argparse, base64, json, os, pathlib, sys, urllib.request, urllib.error
 
 ap = argparse.ArgumentParser()
-ap.add_argument("script"); ap.add_argument("out"); ap.add_argument("--voice", required=True)
-ap.add_argument("--model", default="eleven_v4"); ap.add_argument("--speed", type=float, default=1.0)
-ap.add_argument("--stability", type=float, default=0.5)
+ap.add_argument("script"); ap.add_argument("out"); ap.add_argument("--voice"); ap.add_argument("--type", default="type2")
+ap.add_argument("--model"); ap.add_argument("--speed", type=float); ap.add_argument("--stability", type=float)
 a = ap.parse_args()
+V = json.loads((pathlib.Path(__file__).resolve().parents[1] / "brand/brand.json").read_text(encoding="utf-8")).get("voices", {})
+name = a.voice or V.get("by_type", {}).get(a.type)
+prof = V.get("profiles", {}).get(name, {"voice_id": name})
+if not prof.get("voice_id"): sys.exit("no voice: pass --voice or set voices.by_type in brand/brand.json")
+a.voice = prof["voice_id"]
+a.model = a.model or prof.get("model", "eleven_v4")
+a.speed = a.speed if a.speed is not None else prof.get("speed", 1.0)
+a.stability = a.stability if a.stability is not None else prof.get("stability", 0.5)
+print(f"voice: {name} ({a.voice}), model {a.model}, speed {a.speed}")
 
 env = pathlib.Path.home() / ".config/dataechooo/elevenlabs.env"
 key = os.environ.get("ELEVENLABS_API_KEY")

@@ -3,7 +3,7 @@
 // head, small coat body, stick legs, thin ink outline, warm rim light). Our own drawing, our CI colours.
 // Deterministic: draw(g, spec, st) is a pure function of its inputs; the page passes t-derived state.
 const TOON = (window.TOON = {});
-const INK = '#1A1B1E';
+const INK = DE.color.ink;
 
 TOON.ease = (k) => 1 - Math.pow(1 - Math.min(1, Math.max(0, k)), 3);
 
@@ -160,8 +160,8 @@ TOON.draw = function (g, spec, st) {
 // ---------- cast (studied from photos only for broad traits: hair, glasses, beard) ----------
 TOON.cast = {
   jensen15: { skin: '#F1C79C', hair: { style: 'short', color: '#1E1E24' }, top: { color: '#FFF8EC', kind: 'apron', accent: '#FFFFFF' }, legs: '#2B2F45', size: 0.82, seed: 1 },
-  jensen: { skin: '#F1C79C', hair: { style: 'short', color: '#1E1E24' }, glasses: 'square', top: { color: '#3A3F55', kind: 'coat', accent: '#9EE8FF' }, legs: '#22263A', seed: 1 },
-  jensenNow: { skin: '#F1C79C', hair: { style: 'short', color: '#26262C' }, top: { color: '#1A1B1E', kind: 'jacket', accent: '#3A3F55' }, legs: '#1A1F33', seed: 1 },  // today: black leather jacket
+  jensen: { skin: '#F1C79C', hair: { style: 'short', color: '#1E1E24' }, glasses: 'square', top: { color: '#3A3F55', kind: 'coat', accent: DE.color.sky }, legs: '#22263A', seed: 1 },
+  jensenNow: { skin: '#F1C79C', hair: { style: 'short', color: '#26262C' }, top: { color: DE.color.ink, kind: 'jacket', accent: '#3A3F55' }, legs: '#1A1F33', seed: 1 },  // today: black leather jacket
   chris: { skin: '#F4CDA8', hair: { style: 'curly', color: '#6B4A2E' }, mustache: '#6B4A2E', top: { color: '#2E6B5E', kind: 'jacket', accent: '#FFF8EC' }, legs: '#2B2F45', seed: 2 },
   curtis: { skin: '#F4D2B0', hair: { style: 'bald', color: '#8A6A4A' }, glasses: 'round', beard: '#8A6A4A', top: { color: '#7A3B2E', kind: 'coat', accent: '#FFF8EC' }, legs: '#2B2F45', seed: 3 },
   sega: { skin: '#F1C9A0', hair: { style: 'grey', color: '#BFC4CC' }, glasses: 'square', top: { color: '#1E2A4A', kind: 'coat', accent: '#FFFFFF' }, legs: '#1A1F33', seed: 4 },
