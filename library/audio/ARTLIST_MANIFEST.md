@@ -1,7 +1,8 @@
-# Artlist media used by this repo (files NOT committed: Artlist licences cover use in our productions, not redistribution)
+# Artlist media used by this repo
 
-Download each with your own Artlist account (Artlist MCP `search_music` / `search_sfx` → `download_track`, or artlist.io)
-and save it under the path shown. Then the jobs and the mixer find them as before.
+SFX + foley: committed (owner 2026-11-12: the SFX licence covers the team).
+Music: NOT committed. Each person downloads it with their OWN Artlist account (music licence is per subscriber; nothing here downloads it).
+`python tools/artlist_check.py` lists the missing tracks with their Artlist ID (`artlist_manifest.json`). Download each (Artlist MCP `search_music` / `search_sfx` → `download_track`, or artlist.io) and save it under the path shown.
 
 ## Music → library/audio/music/
 | File | Artlist title (artist) | Used in |

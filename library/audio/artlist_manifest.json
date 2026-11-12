@@ -1,0 +1,229 @@
+{
+ "_note": "Artlist audio the baseline finals use. SFX + foley are committed (owner 2026-11-12: the SFX licence covers the team). MUSIC is not in git and no script downloads it: the music licence is per subscriber. Each person downloads the music with their OWN Artlist account (Artlist MCP download_track with songId = artlist_id, or artlist.io by title) and saves it as WAV at path. Check: python tools/artlist_check.py",
+ "items": [
+  {
+   "path": "library/audio/sfx/whoosh.wav",
+   "artlist_id": "117173",
+   "kind": "sfx",
+   "title": "Air Motion - Short Airy Whoosh (Artlist Studios)",
+   "save_as": "WAV 48000 Hz",
+   "in_repo": true
+  },
+  {
+   "path": "library/audio/sfx/whoosh_2.wav",
+   "artlist_id": "128020",
+   "kind": "sfx",
+   "title": "Organic Swish - Quick Whoosh (Dror Shiman)",
+   "save_as": "WAV 48000 Hz",
+   "in_repo": true
+  },
+  {
+   "path": "library/audio/sfx/whoosh_3.wav",
+   "artlist_id": "124881",
+   "kind": "sfx",
+   "title": "Organic Swish - Rubber Strap Whoosh 02 (Dror Shiman)",
+   "save_as": "WAV 48000 Hz",
+   "in_repo": true
+  },
+  {
+   "path": "library/audio/sfx/whoosh_4.wav",
+   "artlist_id": "28087",
+   "kind": "sfx",
+   "title": "Short High Dry Whoosh (DB studios)",
+   "save_as": "WAV 48000 Hz",
+   "in_repo": true
+  },
+  {
+   "path": "library/audio/sfx/paper.wav",
+   "artlist_id": "95068",
+   "kind": "sfx",
+   "title": "UI Clicks - Newspaper Page Flip (Vadi Sound)",
+   "save_as": "WAV 48000 Hz",
+   "in_repo": true
+  },
+  {
+   "path": "library/audio/sfx/swish_paper.wav",
+   "artlist_id": "60801",
+   "kind": "sfx",
+   "title": "Total Transitions - Paper Whoosh, Pages Flip (Dauzkobza)",
+   "save_as": "WAV 48000 Hz",
+   "in_repo": true
+  },
+  {
+   "path": "library/audio/sfx/pen.wav",
+   "artlist_id": "99253",
+   "kind": "sfx",
+   "title": "Petite Transitions - Straight Line Whoosh, Pen on Paper (Cinemear)",
+   "save_as": "WAV 48000 Hz",
+   "in_repo": true
+  },
+  {
+   "path": "library/audio/sfx/pop.wav",
+   "artlist_id": "99925",
+   "kind": "sfx",
+   "title": "Funny Game UI - Bubble Pop (Ni Sound)",
+   "save_as": "WAV 48000 Hz",
+   "in_repo": true
+  },
+  {
+   "path": "library/audio/sfx/pop_2.wav",
+   "artlist_id": "95065",
+   "kind": "sfx",
+   "title": "UI Clicks - Notification Pop (Vadi Sound)",
+   "save_as": "WAV 48000 Hz",
+   "in_repo": true
+  },
+  {
+   "path": "library/audio/sfx/logo.wav",
+   "artlist_id": "135812",
+   "kind": "sfx",
+   "title": "Casual UI - Pop Notification (SoundCrib)",
+   "save_as": "WAV 48000 Hz",
+   "in_repo": true
+  },
+  {
+   "path": "library/audio/sfx/click.wav",
+   "artlist_id": "111686",
+   "kind": "sfx",
+   "title": "Bright UI - Childish Click (SoundCrib)",
+   "save_as": "WAV 48000 Hz",
+   "in_repo": true
+  },
+  {
+   "path": "library/audio/sfx/shutter.wav",
+   "artlist_id": "59028",
+   "kind": "sfx",
+   "title": "Vintage Cameras - Yashica Mat 124, Shutter Click (Artlist Foley)",
+   "save_as": "WAV 48000 Hz",
+   "in_repo": true
+  },
+  {
+   "path": "library/audio/sfx/counter.wav",
+   "artlist_id": "73734",
+   "kind": "sfx",
+   "title": "Games - Counting Chronometer (TeaSound)",
+   "save_as": "WAV 48000 Hz",
+   "in_repo": true
+  },
+  {
+   "path": "library/audio/sfx/stab.wav",
+   "artlist_id": "140179",
+   "kind": "sfx",
+   "title": "Epic Orchestral - Short String Stab (Artlist Original)",
+   "save_as": "WAV 48000 Hz",
+   "in_repo": true
+  },
+  {
+   "path": "library/audio/sfx/swell.wav",
+   "artlist_id": "129466",
+   "kind": "sfx",
+   "title": "Retrograde - Reversed Cymbal Riser (Artlist Original)",
+   "save_as": "WAV 48000 Hz",
+   "in_repo": true
+  },
+  {
+   "path": "library/audio/sfx/tick.wav",
+   "artlist_id": "131939",
+   "kind": "sfx",
+   "title": "Vintage Stuff - Ticking Clock (Artlist Foley)",
+   "save_as": "WAV 48000 Hz",
+   "in_repo": true
+  },
+  {
+   "path": "library/audio/sfx/rewind.wav",
+   "artlist_id": "75465",
+   "kind": "sfx",
+   "title": "Back in Time - De Escalating Particles, Reverse Whoosh (Selkor Studio)",
+   "save_as": "WAV 48000 Hz",
+   "in_repo": true
+  },
+  {
+   "path": "library/audio/foley/dishes_sink.wav",
+   "artlist_id": "47531",
+   "kind": "sfx",
+   "title": "Kitchen - Washing Dishes in the Sink, Splashing (Sound Ex Machina)",
+   "save_as": "WAV 48000 Hz",
+   "in_repo": true
+  },
+  {
+   "path": "library/audio/foley/diner_walla.wav",
+   "artlist_id": "104041",
+   "kind": "sfx",
+   "title": "Different Crowds - American Diner, Loud Walla (Bjorn Lynne)",
+   "save_as": "WAV 48000 Hz",
+   "in_repo": true
+  },
+  {
+   "path": "library/audio/foley/pencil.wav",
+   "artlist_id": "131806",
+   "kind": "sfx",
+   "title": "Household Devices - Pencil Writing (Artlist Foley)",
+   "save_as": "WAV 48000 Hz",
+   "in_repo": true
+  },
+  {
+   "path": "library/audio/foley/keyboard.wav",
+   "artlist_id": "33568",
+   "kind": "sfx",
+   "title": "Media Basics - Computers Keyboard, Short Typing (Fly Sound)",
+   "save_as": "WAV 48000 Hz",
+   "in_repo": true
+  },
+  {
+   "path": "library/audio/foley/paper_tear.wav",
+   "artlist_id": "65165",
+   "kind": "sfx",
+   "title": "Material Manipulation - Tearing Paper, Cardboard (Epic Stock Media)",
+   "save_as": "WAV 48000 Hz",
+   "in_repo": true
+  },
+  {
+   "path": "library/audio/foley/tapestop.wav",
+   "artlist_id": "39915",
+   "kind": "sfx",
+   "title": "Records Vol 2 - Kick Grabbed, Straight Slow Down Stop (Julien Matthey)",
+   "save_as": "WAV 48000 Hz",
+   "in_repo": true
+  },
+  {
+   "path": "library/audio/foley/phone_ring.wav",
+   "artlist_id": "26338",
+   "kind": "sfx",
+   "title": "Telephone, desk phone ring (Airborne Sound)",
+   "save_as": "WAV 48000 Hz",
+   "in_repo": true
+  },
+  {
+   "path": "library/audio/foley/cup_place.wav",
+   "artlist_id": "73630",
+   "kind": "sfx",
+   "title": "Domestic Living - Placing Plate on Wood Table (TeaSound)",
+   "save_as": "WAV 48000 Hz",
+   "in_repo": true
+  },
+  {
+   "path": "library/audio/music/artlist_ariel-shalom_groove-express.wav",
+   "artlist_id": "135014",
+   "kind": "music",
+   "title": "Groove Express (Ariel Shalom)",
+   "save_as": "WAV 44100 Hz",
+   "in_repo": false
+  },
+  {
+   "path": "library/audio/music/artlist_dor-ben-lulu_moments-apart.wav",
+   "artlist_id": "135139",
+   "kind": "music",
+   "title": "Time & Space / Moments Apart (Dor Ben Lulu)",
+   "save_as": "WAV 44100 Hz",
+   "in_repo": false
+  },
+  {
+   "path": "library/audio/music/artlist_liam-mansfield_a-little-curious.wav",
+   "artlist_id": "131706",
+   "kind": "music",
+   "title": "Little Magics / A Little Curious (Liam Mansfield)",
+   "save_as": "WAV 44100 Hz",
+   "in_repo": false
+  }
+ ]
+}

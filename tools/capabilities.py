@@ -22,7 +22,7 @@ def check(o):
             ok = any("=" in l and l.split("=", 1)[1].strip() for l in pathlib.Path(exp(f)).read_text(encoding="utf-8", errors="ignore").splitlines() if not l.startswith("#"))
         (found if ok else missing).append(f"file {f}")
     for c in o.get("cli", []):
-        hit = shutil.which(c) or any(glob.glob(exp(g)) for g in o.get("globs", [])) or (c == "earshot" and pathlib.Path("C:/earshot").exists())
+        hit = shutil.which(c) or any(glob.glob(exp(g)) for g in o.get("globs", []))
         (found if hit else missing).append(f"cli {c}")
     for m in o.get("python", []):
         (found if importlib.util.find_spec(m) else missing).append(f"py {m}")

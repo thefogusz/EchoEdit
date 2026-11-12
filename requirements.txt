@@ -1,7 +1,8 @@
-# Python 3.11+. Also needed: ffmpeg + ffprobe on PATH, and `python -m playwright install chromium`.
+# Installed by: python tools/setup.py   (Python 3.10+; it also checks ffmpeg and downloads Chromium for Playwright)
 playwright>=1.40
 numpy>=1.26
 Pillow>=10.0
 pythainlp>=5.0
+opencv-python-headless>=4.8   # engine/tools/face_track.py (type 1 face tracking, YuNet model in engine/models)
 # optional
 # openai-whisper   (only for the free local transcription fallback)

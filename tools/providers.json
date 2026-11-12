@@ -14,7 +14,7 @@
      "files": [
       "~/.config/dataechooo/elevenlabs.env"
      ],
-     "run": "python pipelines/tts_elevenlabs.py script.txt out.mp3 --voice <id>",
+     "run": "python pipelines/tts_elevenlabs.py script.txt out.mp3 --type type2   (voice profiles: brand/brand.json voices)",
      "note": "one call for the whole script; returns char timing"
     },
     {
@@ -35,8 +35,8 @@
      "files": [
       "~/.config/koubo/paxa.env"
      ],
-     "run": "python -I <koubo>/scripts/paxa_tts.py \"<text>\" out.mp3 --voice khaotom",
-     "note": "Thai voices, word timing; voice whole script in one call"
+     "run": "python <paxa_tts.py from the digital-human-koubo skill> \"<text>\" out.mp3 --voice khaotom",
+     "note": "optional, outside this repo: needs the Paxa script + key. Not used by the baselines since 2026-11-12."
     }
    ]
   },
@@ -86,9 +86,10 @@
       "codex"
      ],
      "globs": [
-      "~/AppData/Local/OpenAI/Codex/bin/*/codex.exe"
+      "~/AppData/Local/OpenAI/Codex/bin/*/codex.exe",
+      "/Applications/Codex.app/Contents/Resources/codex"
      ],
-     "run": "bash <codex-dispatch>/run-codex.sh <repo> TASK.md <outdir> [ref images]",
+     "run": "python tools/run_codex.py docs/prompts/<brief>.md <job-name> [--images ref.png]",
      "note": "inside a ChatGPT plan; accepts reference images"
     },
     {
@@ -127,7 +128,7 @@
      "cost": "free",
      "paths": [
       "jobs/*/*/assets/plates",
-      "jobs/*/*/assets/cast"
+      "jobs/*/*/assets/plates_min"
      ],
      "note": "reuse existing plates/cast"
     }
@@ -160,9 +161,9 @@
      "kind": "local",
      "cost": "free",
      "paths": [
-      "library/audio/music"
+      "library/audio/music/*.wav"
      ],
-     "note": "only tracks this user is licensed for"
+     "note": "Artlist files: your own account, list via python tools/artlist_check.py"
     }
    ]
   },
@@ -183,21 +184,29 @@
      "kind": "local",
      "cost": "free",
      "paths": [
-      "library/audio/sfx",
-      "library/audio/foley"
-     ]
+      "library/audio/sfx/whoosh.wav",
+      "library/audio/foley/*.wav"
+     ],
+     "note": "Artlist files: your own account, list via python tools/artlist_check.py"
     },
     {
      "id": "earshot_bank",
      "kind": "local",
      "cost": "free",
-     "cli": [
+     "cli": [],
+     "note": "code-made SFX bank (earshot sfx/kit); install: python tools/setup.py --earshot",
+     "python": [
       "earshot"
-     ],
+     ]
+    },
+    {
+     "id": "library_sfx_elevenlabs",
+     "kind": "local",
+     "cost": "free",
      "paths": [
-      "C:/earshot"
+      "library/audio/sfx_elevenlabs"
      ],
-     "note": "code-made SFX bank (earshot sfx/kit)"
+     "note": "ours, in git: works without Artlist"
     }
    ]
   },
@@ -255,13 +264,11 @@
      "id": "earshot_qa",
      "kind": "local",
      "cost": "free",
-     "cli": [
+     "cli": [],
+     "note": "optional audio critique; install: python tools/setup.py --earshot",
+     "python": [
       "earshot"
-     ],
-     "paths": [
-      "C:/earshot"
-     ],
-     "note": "optional audio critique"
+     ]
     }
    ]
   }

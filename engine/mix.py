@@ -79,7 +79,11 @@ def main():
             bank[name] = vs
         return bank[name]
     for c in json.loads(pathlib.Path(a.cues).read_text(encoding="utf-8")):
-        vs = variants(c["sfx"]); k = used.get(c["sfx"], 0); used[c["sfx"]] = k + 1
+        vs = variants(c["sfx"])
+        if not vs:  # file not on this machine (Artlist audio is not in git): skip it, say it once
+            if c["sfx"] not in used: print(f"! sfx '{c['sfx']}' not found in {a.sfx_dir}: skipped (see python tools/artlist_check.py)")
+            used[c["sfx"]] = 0; continue
+        k = used.get(c["sfx"], 0); used[c["sfx"]] = k + 1
         s = vs[k % len(vs)]
         if c.get("dur"):  # cut a long effect (e.g. a counter run) to the length of its picture event
             m = int(c["dur"] * SR); s = s[:m].copy(); f = min(len(s), int(0.04 * SR)); s[-f:] *= np.linspace(1, 0, f)

@@ -1,7 +1,6 @@
 # --- licensed third-party media (Artlist): see library/audio/ARTLIST_MANIFEST.md ---
 library/audio/music/*.wav
-library/audio/sfx/*.wav
-library/audio/foley/*.wav
+# Artlist SFX + foley ARE committed (owner 2026-11-12: the SFX licence covers the team; music does not)
 jobs/**/input/music_bed*.wav
 jobs/**/input/music_artlist*.wav
 # --- third-party raw media we only reference (fair use is for the finished, credited videos) ---

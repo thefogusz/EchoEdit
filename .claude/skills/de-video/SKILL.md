@@ -31,6 +31,17 @@ safe zones, caption rules, sound roles and levels. Assets are swappable and must
 - Any new hard-wired asset in a page is a bug: move it into brand.json or the job's scene data.
 - After changing brand.json or engine/, rebuild the three baseline scenes and compare a few frames with the finals.
 
+## Machine setup and rebuilding (any team member, any machine)
+- First time: `python tools/setup.py` (venv, packages, Chromium, ffmpeg check, key file, Codex check, 2-second test of all
+  three baselines). Then run Python through `.venv` (Windows `.venv\Scripts\python`, macOS/Linux `.venv/bin/python`).
+- Artlist SFX + foley are in git (owner 2026-11-12: the SFX licence covers the team). Artlist MUSIC is not, and no script
+  downloads it (music licence is per subscriber). `python tools/artlist_check.py` lists the missing tracks with their Artlist ID;
+  each person downloads them with their OWN Artlist account (Artlist MCP `download_track` or artlist.io) at the listed path.
+  Without it the mixer still runs and names each missing sound.
+- Rebuild a baseline end to end: `python tools/rebuild.py type1|type2|type3` (`--preview 3` for a quick check). It holds the
+  exact recipe of each final (music start, levels, cue set, clip cuts); a new clip copies that recipe.
+- If something fails on a new machine, fix the repo (script, doc, requirements) so the next person does not hit it.
+
 ## Provider routing: scan, then offer (works on any machine; user rule 2026-11-12)
 Never hard-wire one provider. At the start of a job (or when a step needs voice, timing, images, music or SFX):
 1. Run `python tools/capabilities.py`. It checks API keys (presence only, never values), CLIs (codex, ffmpeg, earshot),
@@ -52,9 +63,9 @@ Never hard-wire one provider. At the start of a job (or when a step needs voice,
 ## 0. Ground rules (all types)
 - **Paid services.**
   - ElevenLabs: voice only (TTS + Scribe timing). Music/SFX there were approved once. Never images or video.
-  - Images: Codex CLI (`codex-dispatch` skill, workspace `work/codex-img`).
-  - Music + SFX: Artlist (user's subscription; `download_track` records the licence).
-  - Thai TTS: Paxa Labs (`digital-human-koubo/scripts/paxa_tts.py`, key in ~/.config/koubo/paxa.env, never print it).
+  - Images: Codex CLI inside the ChatGPT plan: `python tools/run_codex.py docs/prompts/<brief>.md <job-name>` (briefs in `docs/prompts/`).
+  - Music + SFX: Artlist (`download_track` records the licence). The baseline set: `library/audio/artlist_manifest.json` (Artlist ID + path; add every new Artlist file there). SFX: commit new ones to library/audio/sfx or foley. Music: download only with the current user's own Artlist account, never commit it.
+  - Thai TTS alternative: Paxa Labs (optional, outside this repo; needs its own script + key). Default is the ElevenLabs profile in brand.json.
   - Anything new that costs money: quote the price and ask first. Report what was spent.
 - **Brand CI.** Colours only from `brand/brand.json` / `DE.color`:
   - blue #214AFF primary; ice #F3F7FF; teal #00C2BB; sky #9EE8FF; ink #1A1B1E; cream #FFF8EC
@@ -101,7 +112,7 @@ Never hard-wire one provider. At the start of a job (or when a step needs voice,
   - voice EQ; round-robin variants ±4 % pitch
   - `--music-mute "t0-t1,…"` for voice-only tension
   - final −14 LUFS
-  - After a mix: `C:\earshot\.venv\Scripts\python.exe -m earshot critique <mp4>`, then delete today's earshot cache under `C:\earshot\.cache` (keep `hf`).
+  - After a mix (if earshot is installed: `python tools/setup.py --earshot`): `<.venv python> -m earshot critique <mp4>` (see the earshot skill). If it is not installed, say the sound was not checked by ear.
 
 ## 3. Render
 - `engine/render_par.py --page P --data D --out O --duration S --jobs 4`: same lossless PNG frames and x264 settings as render.py, split into parallel chunks and joined by stream copy, with a frame-count check. Type 3 v1: 61 s in 6 min.
@@ -125,12 +136,12 @@ Never hard-wire one provider. At the start of a job (or when a step needs voice,
 5. Current job: `jobs/type2_news/2026-11-12_news_fable52` (plan_v8.json + splice_v8.json → deliverables/type2_news_fable52_v8.mp4).
 
 ## 5. Type 3: animated story (our CI, the ref's format)
-- **Ref:** `refs/type3_yt` (Paper Billions). Take its format, pacing and transitions (REF_TYPE3_AUDIT). Do **not** take its dark mood.
+- **Ref:** `refs/type3_yt` (not in git: https://www.youtube.com/watch?v=_MG4v3foET8, "How a Chinese Spy Got Inside Nvidia", Paper Billions; the audit docs hold what we took from it). Take its format, pacing and transitions (REF_TYPE3_AUDIT). Do **not** take its dark mood.
   - Ours is bright Data Echooo: ice-white sets, cobalt main colour, sky/teal accents, one orange touch.
   - White pills with blue text, brand-blue name tags with leader lines, small colour logo bug.
 - **No mascot in type 3**, not even on the end card. The end card is the logo + orange "กดติดตาม" + the story's own cast waving.
 - **Cast:** `engine/web/toon.js`, round-head characters drawn in code (identical in every shot, blink, faces, poses, walk).
-- **Plates:** Codex, locked brand style paragraph (`work/codex-jobs/TASK-story-plates-brand*.md`), empty sets with an open floor.
+- **Plates:** Codex, locked brand style paragraph (`docs/prompts/codex_type3_plates*.md`), empty sets with an open floor.
 - **Page:** `engine/pages/story2d.html`. Shot fields:
   - `plate`, `cam{z,x,y}`, `actors[keys]`, `props` (dish, tray, napkin, box, contract, check, chip, crowd), `fg` occluder
   - `chip`, `tags`, `counters`, `links`
@@ -145,10 +156,10 @@ Never hard-wire one provider. At the start of a job (or when a step needs voice,
 - **Job:** `jobs/type3_story/2026-11-12_story_nvidia`.
   - Script and fact check: `script_part1.md`
   - Scene: `part1_scene_v3.py` writes `scene.json` + `music_mute.txt`
-  - Then `engine/cues.py story` → `render_par` → `mix --music-mute`
+  - Then `engine/cues.py story` → `render_par` → `mix --music-mute` (all of it: `python tools/rebuild.py type3`)
 
 ## 6. Type 1: talking head (คุณเซฟ)
-- Refs `refs/type1/ref01.mp4`, `ref02.mp4` (copies of คนพูด01/02). Test clip: D:\Downloads\REForsample (already captioned, SD 360x640). No raw footage yet.
+- Refs `refs/type1/ref01.mp4`, `ref02.mp4` (client files, not in git; what they do is written below). Baseline footage: the forsample test clip (`input/footage.mp4`, already captioned, SD 360x640). Ask for raw footage before judging cut quality.
 - What the refs do (audited 2026-11-12 at 5 fps):
   - split top/bottom: the speaker is cropped into one half, the face is never covered
   - the other half shows real content that changes on the word: a toggle flips, a checklist ticks, AI boxes and labels appear, logos come in one by one with a row collecting underneath

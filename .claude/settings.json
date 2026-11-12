@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python tools/capabilities.py:*)",
+      "Bash(python tools/rebuild.py:*)",
+      "Bash(python engine/render.py:*)",
+      "Bash(python engine/render_par.py:*)",
+      "Bash(python engine/mix.py:*)",
+      "Bash(python engine/cues.py:*)",
+      "Bash(ffprobe:*)",
+      "Bash(.venv/Scripts/python tools/capabilities.py:*)",
+      "Bash(.venv/Scripts/python tools/rebuild.py:*)",
+      "Bash(.venv/bin/python tools/capabilities.py:*)",
+      "Bash(.venv/bin/python tools/rebuild.py:*)"
+    ],
+    "deny": [
+      "Read(~/.config/dataechooo/**)",
+      "Read(~/.config/koubo/**)"
+    ]
+  }
+}
